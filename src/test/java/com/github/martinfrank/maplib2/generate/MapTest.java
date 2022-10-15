@@ -13,10 +13,10 @@ public class MapTest {
     public void test_NodesAreUnique(){
         //given
         MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(2).height(1).build();
-        Map<Field<Edge<Node>,Node>,Edge<Node>,Node> map = new MapGenerator<Field<Edge<Node>,Node>, Edge<Node>, Node>().generate(parameter, new DefaultMapPartFactory());
+        Map<Field<Edge<Node>,Node>,Edge<Node>,Node> map = new MapGenerator<>().generate(parameter, new DefaultMapPartFactory());
 
-        Field<Edge<Node>,Node> field_0_0 = map.getField(0,0);
-        Field<Edge<Node>,Node> field_1_0 = map.getField(1,0);
+        Field<Edge<Node>,Node> field_0_0 = map.fields.getField(0, 0);
+        Field<Edge<Node>,Node> field_1_0 = map.fields.getField(1,0);
 
         Edge<Node> same = null;
         for (Edge<Node> edges00: field_0_0.edges){

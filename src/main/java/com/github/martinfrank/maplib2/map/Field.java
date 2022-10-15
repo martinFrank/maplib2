@@ -12,23 +12,21 @@ public class Field<E extends Edge<N>, N extends Node> {
     public final List<N> nodes; //fixme make it unmodifiable
     public final List<E> edges;
     public final N center;
+    public Polygon polygon;
 
 
     private Field(Point position, List<N> nodes, List<E> edges, N center) {
         this.position = position;
-        this.nodes = nodes;
-        this.edges = edges;
+        this.nodes = Collections.unmodifiableList(nodes);
+        this.edges = Collections.unmodifiableList(edges);
         this.center = center;
+        this.polygon = new Polygon(nodes);
     }
 
     @SuppressWarnings("CopyConstructorMissesField")//positiveFalse: it DOES copy all fields!
     public Field(Field<E, N> template) {
-        this(template.position, Collections.unmodifiableList(template.nodes), Collections.unmodifiableList(template.edges), template.center);
+        this(template.position, template.nodes, template.edges, template.center);
     }
 
-    public Polygon getPolygon(double scale) {
-        Polygon polygon = new Polygon(scale, nodes);
-        return polygon;
-    }
 
 }

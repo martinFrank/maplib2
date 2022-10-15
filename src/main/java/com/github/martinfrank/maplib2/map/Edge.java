@@ -1,7 +1,10 @@
 package com.github.martinfrank.maplib2.map;
 
 import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.Polygon;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Edge<N extends Node> {
@@ -9,11 +12,15 @@ public class Edge<N extends Node> {
     public final N a;
     public final N b;
 
+    public final Polygon polygon;
+
     private Edge(N a, N b) {
         this.a = a;
         this.b = b;
+        polygon = new Polygon(Collections.unmodifiableList(Arrays.asList(a,b)));
     }
 
+    @SuppressWarnings("CopyConstructorMissesField")//positiveFalse: it DOES copy all fields!
     public Edge(Edge<N> edge) {
         this(edge.a, edge.b);
     }

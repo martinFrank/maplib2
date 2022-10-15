@@ -5,4 +5,5 @@ public interface MapPartFactory<F extends Field<E,N>, E extends Edge<N>, N exten
     E createEdge(Edge<N> edge);
 
     N createNode(Node node);
+
 }
