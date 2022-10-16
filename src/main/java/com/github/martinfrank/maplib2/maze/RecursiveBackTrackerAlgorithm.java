@@ -10,20 +10,23 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class RecursiveBackTrackerAlgorithm {
-    public static <F extends Field<E, N>, E extends Edge<F, N>, N extends Node> void createMaze(Map<F,E,N> map) {
+
+    @SuppressWarnings("rawtypes")
+    public static <F extends Field<E, N>, E extends Edge<F, N>, N extends Node> void createMaze(Map<F, E, N> map) {
         Deque<F> backTrackerStack = new ArrayDeque<>();
         Set<F> closed = new HashSet<>();
+        setAllBocked(map);
         closeMapBorders(map, closed);
 
-//        int counter = 0;
-//        F current = getMapAccessor().getRandomStartInBounds(2);
-//        getCarver().carveInto(current);
-//        current.getData().setCounter(counter);
-//        counter++;
+        F current = map.fields.getRandomStart();
+        current.setPassable(true);
+
 //        do {
-//            List<F> nbgs = getCarver().getNeighborsForWallCarving(current, closed);
+//            List<F> nbgs = current.fields;
 //            if (nbgs.isEmpty()) {
 //                current = backTrackerStack.pop();
 //            } else {
@@ -40,27 +43,31 @@ public class RecursiveBackTrackerAlgorithm {
 //        } while (!backTrackerStack.isEmpty());
     }
 
-    private static <F extends Field, E extends Edge, N extends Node> void closeMapBorders(Map<F,E,N> map, Set<F> closed) {
-//        for (int dx = 0; dx < map.columns; dx++) {
-//            addToClosed(dx, 0, closed);
-//            addToClosed(dx, getMap().getRows() - 1, closed);
-//            if (fillAdditionalRows()) {
-//                addToClosed(dx, 1, closed);
-//                addToClosed(dx, getMap().getRows() - 2, closed);
-//            }
-//        }
-//        for (int dy = 0; dy < getMap().getRows(); dy++) {
-//            addToClosed(0, dy, closed);
-//            addToClosed(getMap().getColumns() - 1, dy, closed);
-//            if (fillAdditionalColumns()) {
-//                addToClosed(1, dy, closed);
-//                addToClosed(getMap().getColumns() - 2, dy, closed);
-//            }
-//        }
-//        for (int dx = 0; dx < getMap().getColumns(); dx++) {
-//            for (int dy = 0; dy < getMap().getRows(); dy++) {
-//                setBlocked(dx, dy);
-//            }
-//        }
+    @SuppressWarnings("rawtypes")
+    private static <F extends Field<E, N>, E extends Edge<F, N>, N extends Node> void setAllBocked(Map<F, E, N> map) {
+        map.fields.stream().forEach(RecursiveBackTrackerAlgorithm::setBlocked);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static <F extends Field<E, N>, E extends Edge<F, N>, N extends Node> void setBlocked(F field) {
+        field.setPassable(false);
+        field.edges.forEach(RecursiveBackTrackerAlgorithm::setBlocked);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static <F extends Field<E, N>, E extends Edge<F, N>, N extends Node> void setBlocked(E edge) {
+        edge.setPassable(false);
+    }
+
+    @SuppressWarnings({"unchecked","rawtypes"})
+    private static <F extends Field<E, N>, E extends Edge, N extends Node> void closeMapBorders(Map<F, E, N> map, Set<F> closed) {
+        List<F> borderFields = map.fields.getBorders();
+        System.out.println("size of borderFields: " + borderFields.size());
+        addToClosed(borderFields, closed);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static <F extends Field<E, N>, E extends Edge<F, N>, N extends Node> void addToClosed(List<F> fields, Set<F> closed) {
+        closed.addAll(fields);
     }
 }

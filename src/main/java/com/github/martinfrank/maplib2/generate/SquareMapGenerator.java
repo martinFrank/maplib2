@@ -26,6 +26,7 @@ public class SquareMapGenerator<F extends Field, E extends Edge, N extends Node>
         BypassFinalFieldsUtil.setEdgesToNodes(edges, nodes);
         BypassFinalFieldsUtil.setEdgesToEdge(edges);
         BypassFinalFieldsUtil.setFieldsToEdge(fields, edges);
+        BypassFinalFieldsUtil.setFieldsToField(fields);
         return BypassHiddenConstructorUtil.createMapViaReflection(new Fields<>(fields));
     }
 

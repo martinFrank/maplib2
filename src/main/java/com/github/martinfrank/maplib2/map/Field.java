@@ -7,13 +7,16 @@ import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class Field<E extends Edge, N extends Node>{
+public class Field<E extends Edge, N extends Node> {
 
     public final Point position;
     public final List<N> nodes;
     public final List<E> edges;
+    public final List<Field> fields = null;
     public final N center;
     public Polygon polygon;
+
+    private boolean isPassable;
 
 
     private Field(Point position, List<N> nodes, List<E> edges, N center) {
@@ -30,4 +33,11 @@ public class Field<E extends Edge, N extends Node>{
     }
 
 
+    public void setPassable(boolean isPassable) {
+        this.isPassable = isPassable;
+    }
+
+    public boolean isPassable() {
+        return isPassable;
+    }
 }

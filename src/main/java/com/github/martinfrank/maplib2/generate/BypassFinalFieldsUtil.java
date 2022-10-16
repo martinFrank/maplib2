@@ -6,6 +6,7 @@ import com.github.martinfrank.maplib2.map.Node;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -71,6 +72,19 @@ public class BypassFinalFieldsUtil {
     }
 
     @SuppressWarnings("rawtypes")
+    private static <F extends Field> void setFieldFields(F field, List<F> nbgs) {
+        Class<Field> nodeClass = Field.class;
+        try {
+            java.lang.reflect.Field f = nodeClass.getField("fields");
+            f.setAccessible(true);
+            f.set(field, nbgs);
+            f.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
     public static <F extends Field, E extends Edge> void setFieldsToEdge(List<F> fields, List<E> edges) {
         for (E edge : edges) {
             List<F> nbgs = fields.stream().filter(f -> f.edges.contains(edge)).collect(Collectors.toList());
@@ -101,6 +115,24 @@ public class BypassFinalFieldsUtil {
         for (N node : nodes) {
             List<F> nbgs = fields.stream().filter(f -> f.nodes.contains(node)).collect(Collectors.toList());
             BypassFinalFieldsUtil.setNodeFields(node, nbgs);
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static <F extends Field<E,?>, E extends Edge> void setFieldsToField(List<F> fields) {
+        for (F field : fields) {
+            List<F> nbgs = new ArrayList<>();
+            for(F candidate: fields){
+                if (!candidate.equals(field)){
+                    for (Edge e: field.edges){
+                        if(candidate.edges.contains(e)){
+                            nbgs.add(candidate);
+                            break;
+                        }
+                    }
+                }
+            }
+            BypassFinalFieldsUtil.setFieldFields(field, nbgs);
         }
     }
 }

@@ -2,8 +2,11 @@ package com.github.martinfrank.maplib2.map;
 
 import com.github.martinfrank.maplib2.geo.Point;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Fields<F extends Field, E extends Edge, N extends Node> {
 
@@ -26,7 +29,29 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         return internalFields.get(i);
     }
 
-    public List<F> getAll() {
-        return internalFields;
+    public Stream<F> stream(){
+        return internalFields.stream();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<F> getBorders() {
+        List<F> borderFields = new ArrayList<>();
+        for(F f: internalFields){
+            List<E> edges = f.edges;
+            for(E edge: edges){
+                if (edge.fieldA == null || edge.fieldB == null){//I know better!!!
+                    borderFields.add(f);
+                    break;
+                }
+            }
+        }
+        return borderFields;
+    }
+
+    public F getRandomStart() {
+        List<F> candidates = new ArrayList<>(internalFields);
+        candidates.removeAll(getBorders());
+        Collections.shuffle(candidates);
+        return candidates.get(0);
     }
 }

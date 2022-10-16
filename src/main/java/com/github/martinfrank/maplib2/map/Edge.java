@@ -17,6 +17,8 @@ public class Edge<F extends Field, N extends Node> {
 
     public final List<Edge<F,N>> edges = null;
 
+    private boolean isPassable;
+
     public final Polygon polygon;
 
     private Edge(N nodeA, N nodeB) {
@@ -40,6 +42,13 @@ public class Edge<F extends Field, N extends Node> {
         return ab || ba;
     }
 
+    public void setPassable(boolean isPassable) {
+        this.isPassable = isPassable;
+    }
+
+    public boolean isPassable(){
+        return isPassable;
+    }
     @Override
     public int hashCode() {
         return Objects.hash(nodeA, nodeB);
