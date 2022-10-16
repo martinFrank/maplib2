@@ -6,8 +6,10 @@ import com.github.martinfrank.maplib2.map.Map;
 import com.github.martinfrank.maplib2.map.MapPartFactory;
 import com.github.martinfrank.maplib2.map.Node;
 
+@SuppressWarnings("rawtypes")
 public class MapGenerator<F extends Field, E extends Edge, N extends Node> {
 
+    @SuppressWarnings("rawtypes")
     public static <F extends Field, E extends Edge, N extends Node> Map<F, E, N> generate(MapGenerationParameter parameter, MapPartFactory<F, E, N> factory) {
         switch (parameter.mapStyle) {
             case SQUARE:

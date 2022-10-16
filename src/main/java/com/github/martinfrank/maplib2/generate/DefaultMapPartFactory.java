@@ -10,6 +10,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class DefaultMapPartFactory implements MapPartFactory<Field, Edge, Node> {
 
     @Override

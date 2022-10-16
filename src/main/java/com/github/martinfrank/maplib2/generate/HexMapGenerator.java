@@ -13,36 +13,42 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
 
     public Map<F, E, N> generate(MapGenerationParameter parameter, MapPartFactory<F, E, N> factory) {
         List<F> fields = new ArrayList<>();
-        List<E> edgePool = new ArrayList<>();
-        List<N> pointPool = new ArrayList<>();
+        List<E> edges = new ArrayList<>();
+        List<N> nodes = new ArrayList<>();
         for (Point position : MapGeneratorUtils.mapSizeToPoints(parameter)) {
             if (parameter.orientation == MapStyle.Orientation.VERTICAL) {
-                fields.add(createVerticalHexField(position, edgePool, pointPool, factory));
+                fields.add(createVerticalHexField(position, edges, nodes, factory));
             }
             if (parameter.orientation == MapStyle.Orientation.HORIZONTAL) {
-                fields.add(createHorizontalHexField(position, edgePool, pointPool, factory));
+                fields.add(createHorizontalHexField(position, edges, nodes, factory));
             }
         }
+        BypassFinalFieldsUtil.setFieldsToNodes(fields, nodes);
+        BypassFinalFieldsUtil.setEdgesToNodes(edges, nodes);
+        BypassFinalFieldsUtil.setEdgesToEdge(edges);
+        BypassFinalFieldsUtil.setFieldsToEdge(fields, edges);
         return BypassHiddenConstructorUtil.createMapViaReflection(new Fields<>(fields));
     }
 
-    private F createHorizontalHexField(Point position, List<E> edgePool, List<N> pointPool, MapPartFactory<F, E, N> factory) {
+    @SuppressWarnings("unchecked")
+    private F createHorizontalHexField(Point position, List<E> edgePool, List<N> nodePools, MapPartFactory<F, E, N> factory) {
 
         double cx = 2 + 3 * position.x;
         double cy = isEvenColumn(position) ? 2 + 4 * position.y : 4 + 4 * position.y;
 
         N center = factory.createNode(BypassHiddenConstructorUtil.createNodeViaReflection(cx, cy));
 
-        N a = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x - 2, center.y, factory);
-        N b = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x - 1, center.y - 2, factory);
-        N c = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x + 1, center.y - 2, factory);
-        N d = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x + 2, center.y, factory);
-        N e = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x + 1, center.y + 2, factory);
-        N f = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x - 1, center.y + 2, factory);
+        N a = BypassHiddenConstructorUtil.createIfNotExists(nodePools, center.x - 2, center.y, factory);
+        N b = BypassHiddenConstructorUtil.createIfNotExists(nodePools, center.x - 1, center.y - 2, factory);
+        N c = BypassHiddenConstructorUtil.createIfNotExists(nodePools, center.x + 1, center.y - 2, factory);
+        N d = BypassHiddenConstructorUtil.createIfNotExists(nodePools, center.x + 2, center.y, factory);
+        N e = BypassHiddenConstructorUtil.createIfNotExists(nodePools, center.x + 1, center.y + 2, factory);
+        N f = BypassHiddenConstructorUtil.createIfNotExists(nodePools, center.x - 1, center.y + 2, factory);
         List<N> nodes = Arrays.asList(a, b, c, d, e, f);
 
         E ab = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, a, b, factory);
@@ -58,6 +64,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
     }
 
 
+    @SuppressWarnings("unchecked")
     private F createVerticalHexField(Point position, List<E> edgePool, List<N> pointPool, MapPartFactory<F, E, N> factory) {
 
         double cx = isEvenRow(position) ? 2 + 4 * position.x : 4 + 4 * position.x;

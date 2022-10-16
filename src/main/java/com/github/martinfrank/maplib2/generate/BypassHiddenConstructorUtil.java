@@ -21,20 +21,24 @@ class BypassHiddenConstructorUtil {
         try {
             Constructor<Node> constructor = fieldClass.getDeclaredConstructor(double.class, double.class);
             constructor.setAccessible(true);
-            return constructor.newInstance(x,y);
+            Node node = constructor.newInstance(x,y);
+            constructor.setAccessible(false);
+            return node;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @SuppressWarnings({"rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     static <F extends Field, E extends Edge, N extends Node> Field<E,N> createFieldViaReflection(Point position, List<N> nodes, List<E> edges, N center) {
         Class<Field> fieldClass = Field.class;
         try {
             Constructor<Field> constructor = fieldClass.getDeclaredConstructor(Point.class, List.class, List.class, Node.class);
             constructor.setAccessible(true);
-            return constructor.newInstance(position, nodes, edges, center);
+            Field field = constructor.newInstance(position, nodes, edges, center);
+            constructor.setAccessible(false);
+            return field;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -47,7 +51,9 @@ class BypassHiddenConstructorUtil {
         try {
             Constructor<Edge> constructor = edgeClass.getDeclaredConstructor(Node.class, Node.class);
             constructor.setAccessible(true);
-            return constructor.newInstance(a, b);
+            Edge edge = constructor.newInstance(a, b);
+            constructor.setAccessible(false);
+            return edge;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -60,7 +66,9 @@ class BypassHiddenConstructorUtil {
         try {
             Constructor<Map> constructor = mapClass.getDeclaredConstructor(Fields.class);
             constructor.setAccessible(true);
-            return constructor.newInstance(fields);
+            Map<F,E,N> map = constructor.newInstance(fields);
+            constructor.setAccessible(false);
+            return map;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -68,6 +76,7 @@ class BypassHiddenConstructorUtil {
     }
 
 
+    @SuppressWarnings("rawtypes")
     public static <F extends Field, E extends Edge, N extends Node> N createIfNotExists(List<N> pointPool, double x, double y, MapPartFactory<F, E, N> factory) {
         Node<F,E> node = BypassHiddenConstructorUtil.createNodeViaReflection(x,y);
         N newNode = factory.createNode(node);
@@ -80,6 +89,7 @@ class BypassHiddenConstructorUtil {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     public static <F extends Field, E extends Edge, N extends Node> E createIfNotExists(List<E> edgePool, Node<F,E> a, Node<F,E> b, MapPartFactory<F, E, N> factory) {
         Edge<F,N> newEdge = BypassHiddenConstructorUtil.createEdgeViaReflection(a, b);
         E edge = factory.createEdge(newEdge);

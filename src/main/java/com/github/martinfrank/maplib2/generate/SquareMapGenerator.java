@@ -11,29 +11,27 @@ import com.github.martinfrank.maplib2.map.Node;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
+@SuppressWarnings("rawtypes")
 public class SquareMapGenerator<F extends Field, E extends Edge, N extends Node> {
 
     public Map<F, E, N> generate(MapGenerationParameter parameter, MapPartFactory<F, E, N> factory) {
         List<F> fields = new ArrayList<>();
-        List<E> edgePool = new ArrayList<>();
+        List<E> edges = new ArrayList<>();
         List<N> nodes = new ArrayList<>();
         for (Point position : MapGeneratorUtils.mapSizeToPoints(parameter)) {
-            fields.add(createSquareField(position, edgePool, nodes, factory));
+            fields.add(createSquareField(position, edges, nodes, factory));
         }
-        setFieldsToNodes(fields, nodes);
+        BypassFinalFieldsUtil.setFieldsToNodes(fields, nodes);
+        BypassFinalFieldsUtil.setEdgesToNodes(edges, nodes);
+        BypassFinalFieldsUtil.setEdgesToEdge(edges);
+        BypassFinalFieldsUtil.setFieldsToEdge(fields, edges);
         return BypassHiddenConstructorUtil.createMapViaReflection(new Fields<>(fields));
     }
 
-    private void setFieldsToNodes(List<F> fields, List<N> nodes) {
-        for (N node: nodes){
-            List<F> nbgs = fields.stream().filter(f -> f.nodes.contains(node)).collect(Collectors.toList());
-            BypassFinalFieldsUtil.setNodeFields(node, nbgs);
-        }
-    }
 
+
+    @SuppressWarnings("unchecked")
     private F createSquareField(Point position, List<E> edgePool, List<N> pointPool, MapPartFactory<F, E, N> factory) {
 
         N center = factory.createNode(BypassHiddenConstructorUtil.createNodeViaReflection((2 * position.x) + 1, (2 * position.y) + 1));
