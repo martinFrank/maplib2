@@ -16,8 +16,8 @@ public class EdgeTest extends TestCase {
         Node b = BypassHiddenConstructorUtil.createNodeViaReflection(2,2);
 
         //when
-        Edge<Node> ab = BypassHiddenConstructorUtil.createEdgeViaReflection(a,b);
-        Edge<Node> ba = BypassHiddenConstructorUtil.createEdgeViaReflection(b,a);
+        Edge ab = BypassHiddenConstructorUtil.createEdgeViaReflection(a,b);
+        Edge ba = BypassHiddenConstructorUtil.createEdgeViaReflection(b,a);
 
         //then
         Assert.assertEquals(ab, ba);

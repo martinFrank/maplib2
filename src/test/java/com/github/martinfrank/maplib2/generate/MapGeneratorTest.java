@@ -13,10 +13,10 @@ public class MapGeneratorTest extends TestCase {
     public void test_mapGenerated_defaultParameter_Successfully(){
         //given
         MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(20).height(20).build();
-        MapGenerator<Field<Edge<Node>, Node>,Edge<Node>,Node> mapGenerator = new MapGenerator<>();
+        MapGenerator<Field, Edge, Node> mapGenerator = new MapGenerator();
 
         //when
-        Map<Field<Edge<Node>,Node>, Edge<Node>, Node> map = mapGenerator.generate(parameter);
+        Map<Field, Edge,  Node> map = mapGenerator.generate(parameter);
 
         //then
         assertNotNull(map);

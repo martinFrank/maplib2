@@ -6,7 +6,7 @@ import com.github.martinfrank.maplib2.geo.Polygon;
 import java.util.Collections;
 import java.util.List;
 
-public class Field<E extends Edge<N>, N extends Node> {
+public class Field<E extends Edge, N extends Node>{
 
     public final Point position;
     public final List<N> nodes; //fixme make it unmodifiable

@@ -10,15 +10,15 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class DefaultMapPartFactory implements MapPartFactory<Field<Edge<Node>,Node>, Edge<Node>, Node> {
+public class DefaultMapPartFactory implements MapPartFactory<Field, Edge, Node> {
 
     @Override
-    public Field<Edge<Node> ,Node> createField(Field<Edge<Node>,Node> field) {
+    public Field createField(Field field) {
         return field;
     }
 
     @Override
-    public Edge<Node> createEdge(Edge<Node> edge) {
+    public Edge createEdge(Edge edge) {
         return edge;
     }
 

@@ -5,7 +5,7 @@ import com.github.martinfrank.maplib2.geo.Point;
 import java.util.Collections;
 import java.util.List;
 
-public class Fields<F extends Field<E, N>, E extends Edge<N>, N extends Node> {
+public class Fields<F extends Field, E extends Edge, N extends Node> {
 
     private final List<F> internalFields;
 

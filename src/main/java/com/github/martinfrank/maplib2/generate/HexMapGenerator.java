@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HexMapGenerator<F extends Field<E, N>, E extends Edge<N>, N extends Node> {
+public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
 
     public Map<F, E, N> generate(MapGenerationParameter parameter, MapPartFactory<F, E, N> factory) {
         List<F> fields = new ArrayList<>();
@@ -43,15 +43,14 @@ public class HexMapGenerator<F extends Field<E, N>, E extends Edge<N>, N extends
         N d = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x + 2, center.y, factory);
         N e = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x + 1, center.y + 2, factory);
         N f = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x - 1, center.y + 2, factory);
-
         List<N> nodes = Arrays.asList(a, b, c, d, e, f);
 
-        E ab = BypassHiddenConstructorUtil.createIfNotExists(edgePool, a, b, factory);
-        E bc = BypassHiddenConstructorUtil.createIfNotExists(edgePool, b, c, factory);
-        E cd = BypassHiddenConstructorUtil.createIfNotExists(edgePool, c, d, factory);
-        E de = BypassHiddenConstructorUtil.createIfNotExists(edgePool, d, e, factory);
-        E ef = BypassHiddenConstructorUtil.createIfNotExists(edgePool, e, f, factory);
-        E fa = BypassHiddenConstructorUtil.createIfNotExists(edgePool, f, a, factory);
+        E ab = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, a, b, factory);
+        E bc = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, b, c, factory);
+        E cd = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, c, d, factory);
+        E de = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, d, e, factory);
+        E ef = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, e, f, factory);
+        E fa = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, f, a, factory);
         List<E> edges = Arrays.asList(ab, bc, cd, de, ef, fa);
 
         Field<E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
@@ -74,12 +73,12 @@ public class HexMapGenerator<F extends Field<E, N>, E extends Edge<N>, N extends
         N f = BypassHiddenConstructorUtil.createIfNotExists(pointPool, center.x - 2, center.y + 1, factory);
         List<N> nodes = Arrays.asList(a, b, c, d, e, f);
 
-        E ab = BypassHiddenConstructorUtil.createIfNotExists(edgePool, a, b, factory);
-        E bc = BypassHiddenConstructorUtil.createIfNotExists(edgePool, b, c, factory);
-        E cd = BypassHiddenConstructorUtil.createIfNotExists(edgePool, c, d, factory);
-        E de = BypassHiddenConstructorUtil.createIfNotExists(edgePool, d, e, factory);
-        E ef = BypassHiddenConstructorUtil.createIfNotExists(edgePool, e, f, factory);
-        E fa = BypassHiddenConstructorUtil.createIfNotExists(edgePool, f, a, factory);
+        E ab = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, a, b, factory);
+        E bc = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, b, c, factory);
+        E cd = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, c, d, factory);
+        E de = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, d, e, factory);
+        E ef = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, e, f, factory);
+        E fa = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, f, a, factory);
         List<E> edges = Arrays.asList(ab, bc, cd, de, ef, fa);
 
         Field<E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
