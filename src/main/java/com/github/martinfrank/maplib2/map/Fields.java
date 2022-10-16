@@ -5,9 +5,9 @@ import com.github.martinfrank.maplib2.geo.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuppressWarnings("rawtypes")
 public class Fields<F extends Field, E extends Edge, N extends Node> {
 
     private final List<F> internalFields;
@@ -53,5 +53,9 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         candidates.removeAll(getBorders());
         Collections.shuffle(candidates);
         return candidates.get(0);
+    }
+
+    public List<F> getAll() {
+        return internalFields;
     }
 }

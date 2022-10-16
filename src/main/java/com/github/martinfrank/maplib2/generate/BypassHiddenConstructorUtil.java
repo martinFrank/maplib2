@@ -31,7 +31,7 @@ class BypassHiddenConstructorUtil {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    static <F extends Field, E extends Edge, N extends Node> Field<E,N> createFieldViaReflection(Point position, List<N> nodes, List<E> edges, N center) {
+    static <F extends Field, E extends Edge, N extends Node> Field<F, E,N> createFieldViaReflection(Point position, List<N> nodes, List<E> edges, N center) {
         Class<Field> fieldClass = Field.class;
         try {
             Constructor<Field> constructor = fieldClass.getDeclaredConstructor(Point.class, List.class, List.class, Node.class);
@@ -46,7 +46,7 @@ class BypassHiddenConstructorUtil {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    static <F extends Field, E extends Edge, N extends Node> Edge<F,N> createEdgeViaReflection(Node a, Node b) {
+    static <F extends Field, E extends Edge, N extends Node> Edge<F,E, N> createEdgeViaReflection(Node a, Node b) {
         Class<Edge> edgeClass = Edge.class;
         try {
             Constructor<Edge> constructor = edgeClass.getDeclaredConstructor(Node.class, Node.class);
@@ -91,7 +91,7 @@ class BypassHiddenConstructorUtil {
 
     @SuppressWarnings("rawtypes")
     public static <F extends Field, E extends Edge, N extends Node> E createIfNotExists(List<E> edgePool, Node<F,E> a, Node<F,E> b, MapPartFactory<F, E, N> factory) {
-        Edge<F,N> newEdge = BypassHiddenConstructorUtil.createEdgeViaReflection(a, b);
+        Edge<F,E, N> newEdge = BypassHiddenConstructorUtil.createEdgeViaReflection(a, b);
         E edge = factory.createEdge(newEdge);
         Optional<E> existing = edgePool.stream().filter(edge::equals).findAny();
         if (existing.isPresent()) {

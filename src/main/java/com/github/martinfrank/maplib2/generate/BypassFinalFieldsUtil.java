@@ -119,13 +119,13 @@ public class BypassFinalFieldsUtil {
     }
 
     @SuppressWarnings("rawtypes")
-    public static <F extends Field<E,?>, E extends Edge> void setFieldsToField(List<F> fields) {
+    public static <F extends Field<?, E,?>, E extends Edge> void setFieldsToField(List<F> fields) {
         for (F field : fields) {
             List<F> nbgs = new ArrayList<>();
             for(F candidate: fields){
                 if (!candidate.equals(field)){
                     for (Edge e: field.edges){
-                        if(candidate.edges.contains(e)){
+                        if(candidate.edges.contains(e)){ //FIXME what is this?
                             nbgs.add(candidate);
                             break;
                         }

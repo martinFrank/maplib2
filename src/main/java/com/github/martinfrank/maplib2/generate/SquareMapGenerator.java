@@ -50,7 +50,7 @@ public class SquareMapGenerator<F extends Field, E extends Edge, N extends Node>
         E da = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, d, a, factory);
         List<E> edges = Arrays.asList(ab, bc, cd, da);
 
-        Field<E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
+        Field<F, E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
         return factory.createField(field);
     }
 

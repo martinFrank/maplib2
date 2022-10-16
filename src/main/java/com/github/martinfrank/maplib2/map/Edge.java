@@ -7,7 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Edge<F extends Field, N extends Node> {
+@SuppressWarnings("rawtypes")
+public class Edge<F extends Field, THIS, N extends Node> {
 
     public final N nodeA;
     public final N nodeB;
@@ -15,7 +16,7 @@ public class Edge<F extends Field, N extends Node> {
     public final F fieldA = null;
     public final F fieldB = null;
 
-    public final List<Edge<F,N>> edges = null;
+    public final List<THIS> edges = null;
 
     private boolean isPassable;
 
@@ -28,15 +29,16 @@ public class Edge<F extends Field, N extends Node> {
     }
 
     @SuppressWarnings("CopyConstructorMissesField")//positiveFalse: it DOES copy all fields!
-    public Edge(Edge<F,N> edge) {
+    public Edge(Edge<F,THIS, N> edge) {
         this(edge.nodeA, edge.nodeB);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Edge<F,N> edge = (Edge<F,N>) o;
+        Edge<F,THIS, N> edge = (Edge<F,THIS, N>) o;
         boolean ab = Objects.equals(nodeA, edge.nodeA) && Objects.equals(nodeB, edge.nodeB);
         boolean ba = Objects.equals(nodeA, edge.nodeB) && Objects.equals(nodeB, edge.nodeA);
         return ab || ba;

@@ -32,6 +32,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
         BypassFinalFieldsUtil.setEdgesToNodes(edges, nodes);
         BypassFinalFieldsUtil.setEdgesToEdge(edges);
         BypassFinalFieldsUtil.setFieldsToEdge(fields, edges);
+        BypassFinalFieldsUtil.setFieldsToField(fields);
         return BypassHiddenConstructorUtil.createMapViaReflection(new Fields<>(fields));
     }
 
@@ -59,7 +60,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
         E fa = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, f, a, factory);
         List<E> edges = Arrays.asList(ab, bc, cd, de, ef, fa);
 
-        Field<E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
+        Field<F, E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
         return factory.createField(field);
     }
 
@@ -88,7 +89,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
         E fa = (E) BypassHiddenConstructorUtil.createIfNotExists(edgePool, f, a, factory);
         List<E> edges = Arrays.asList(ab, bc, cd, de, ef, fa);
 
-        Field<E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
+        Field<F, E, N> field = BypassHiddenConstructorUtil.createFieldViaReflection(position, nodes, edges, center);
         return factory.createField(field);
     }
 
