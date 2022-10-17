@@ -5,7 +5,6 @@ import com.github.martinfrank.maplib2.geo.Polygon;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("rawtypes")
 public class Field<THIS, E extends Edge, N extends Node> {
@@ -54,7 +53,7 @@ public class Field<THIS, E extends Edge, N extends Node> {
     }
 
     private static <F extends Field> boolean equalFields(F that, F other, Edge edge){
-        if (edge.fieldA == null || edge.fieldB == null){
+        if (edge.fieldA == null || edge.fieldB == null){//false positive, I know better
             return false;
         }
         return edge.fieldA.equals(that) && edge.fieldB.equals(other) || edge.fieldB.equals(that) && edge.fieldA.equals(other);

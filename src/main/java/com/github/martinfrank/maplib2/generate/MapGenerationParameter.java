@@ -9,8 +9,6 @@ public class MapGenerationParameter {
 
     public final int width;
     public final int height;
-
-    //FIXME Builder Pattern
     private MapGenerationParameter(MapStyle mapStyle, MapStyle.Orientation orientation, int width, int height) {
         this.mapStyle = mapStyle;
         this.orientation = orientation;

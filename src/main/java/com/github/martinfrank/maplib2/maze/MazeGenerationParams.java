@@ -14,7 +14,7 @@ public class MazeGenerationParams {
 
     public static class Builder{
 
-        private MazeAlgorithmType algorithm = MazeAlgorithmType.RECURSIVE_BACK_TRACKER_BLOCKS;
+        private MazeAlgorithmType algorithm = MazeAlgorithmType.RECURSIVE_BACKTRACKER_FIELDS;
 
         public Builder algorithm(MazeAlgorithmType algorithm){
             this.algorithm = algorithm;

@@ -1,14 +1,9 @@
 package com.github.martinfrank.maplib2.generate;
 
-import com.github.martinfrank.maplib2.geo.Point;
 import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.MapPartFactory;
 import com.github.martinfrank.maplib2.map.Node;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 @SuppressWarnings("rawtypes")
 public class DefaultMapPartFactory implements MapPartFactory<Field, Edge, Node> {

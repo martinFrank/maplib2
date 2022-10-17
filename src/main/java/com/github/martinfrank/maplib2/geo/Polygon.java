@@ -3,7 +3,6 @@ package com.github.martinfrank.maplib2.geo;
 import com.github.martinfrank.maplib2.map.Node;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +14,7 @@ public class Polygon {
     private final List<Point> originalPoints;
 
 
+    @SuppressWarnings("rawtypes")
     public Polygon(List<? extends Node> nodes) {
         double minx = nodes.stream().mapToDouble(n-> n.x).min().orElse(0);
         double miny = nodes.stream().mapToDouble(n-> n.y).min().orElse(0);
