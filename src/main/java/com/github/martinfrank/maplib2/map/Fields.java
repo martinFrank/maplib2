@@ -1,9 +1,11 @@
 package com.github.martinfrank.maplib2.map;
 
+import com.github.martinfrank.maplib2.geo.Line;
 import com.github.martinfrank.maplib2.geo.Point;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EventObject;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -57,5 +59,43 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
 
     public List<F> getAll() {
         return internalFields;
+    }
+
+    public F getFieldOnScreen(Point point, double scale, double catchRadius) {
+        for(F field: internalFields){
+            Point center = field.center.polygon.getScaled(scale).get(0);
+            if(Line.distance(point,center) < catchRadius){
+                return field;
+            }
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public E getEdgeOnScreen(Point point, double scale, int catchRadius) {
+        for(F field: internalFields){
+            for(Object edgeObject: field.edges) {
+                E edge = (E) edgeObject;
+                Point center = edge.center.polygon.getScaled(scale).get(0);
+                if (Line.distance(point, center) < catchRadius) {
+                    return edge;
+                }
+            }
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public N getNodeOnScreen(Point point, double scale, int catchRadius) {
+        for(F field: internalFields){
+            for(Object nodeObject: field.nodes) {
+                N node = (N) nodeObject;
+                Point center = node.polygon.getScaled(scale).get(0);
+                if (Line.distance(point, center) < catchRadius) {
+                    return node;
+                }
+            }
+        }
+        return null;
     }
 }
