@@ -13,9 +13,7 @@ public class Polygon {
 
     private final List<Point> originalPoints;
 
-
-    @SuppressWarnings("rawtypes")
-    public Polygon(List<? extends Node> nodes) {
+    public Polygon(List<? extends Point> nodes) {
         double minx = nodes.stream().mapToDouble(n-> n.x).min().orElse(0);
         double miny = nodes.stream().mapToDouble(n-> n.y).min().orElse(0);
         double maxx = nodes.stream().mapToDouble(n-> n.x).max().orElse(0);
@@ -25,7 +23,16 @@ public class Polygon {
         this.originalPoints = new ArrayList<>(nodes);
     }
 
-    public List<Point> getScaled(double v) {
-        return originalPoints.stream().map(p -> new Point(p.x*v, p.y*v)).collect(Collectors.toList());
+
+    public List<Point> getScaled(double scale) {
+        return originalPoints.stream().map(p -> new Point(p.x*scale, p.y*scale)).collect(Collectors.toList());
+    }
+
+    public double getScaledWidth(double scale){
+        return width * scale;
+    }
+
+    public double getScaledHeight(double scale){
+        return height * scale;
     }
 }

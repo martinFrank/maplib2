@@ -14,9 +14,11 @@ public class Field<THIS, E extends Edge, N extends Node> {
     public final List<E> edges;
     public final List<THIS> fields = null;
     public final N center;
-    public Polygon polygon;
+    public final Polygon polygon;
 
     private boolean isPassable;
+
+    public int count;
 
 
     private Field(Point position, List<N> nodes, List<E> edges, N center) {
@@ -63,5 +65,10 @@ public class Field<THIS, E extends Edge, N extends Node> {
             return (THIS) edge.fieldA;
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Node.center="+position.toString();
     }
 }

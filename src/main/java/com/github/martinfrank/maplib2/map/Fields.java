@@ -5,7 +5,6 @@ import com.github.martinfrank.maplib2.geo.Point;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EventObject;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -97,5 +96,31 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
             }
         }
         return null;
+    }
+
+    public double getWidth() {
+        double width = 0;
+        for(F field: internalFields){
+            for(Object nodeObject: field.nodes) {
+                N node = (N) nodeObject;
+                if (node.x > width){
+                    width = node.x;
+                }
+            }
+        }
+        return width;
+    }
+
+    public double getHeight() {
+        double height = 0;
+        for(F field: internalFields){
+            for(Object nodeObject: field.nodes) {
+                N node = (N) nodeObject;
+                if (node.y > height){
+                    height = node.y;
+                }
+            }
+        }
+        return height;
     }
 }
