@@ -13,6 +13,8 @@ public class Edge<F extends Field, THIS, N extends Node> {
     public final N nodeA;
     public final N nodeB;
 
+    public final N center;
+
     public final F fieldA = null;
     public final F fieldB = null;
 
@@ -22,15 +24,16 @@ public class Edge<F extends Field, THIS, N extends Node> {
 
     public final Polygon polygon;
 
-    private Edge(N nodeA, N nodeB) {
+    private Edge(N nodeA, N nodeB, N center) {
         this.nodeA = nodeA;
         this.nodeB = nodeB;
+        this.center = center;
         polygon = new Polygon(Collections.unmodifiableList(Arrays.asList(nodeA, nodeB)));
     }
 
     @SuppressWarnings("CopyConstructorMissesField")//positiveFalse: it DOES copy all fields!
     public Edge(Edge<F,THIS, N> edge) {
-        this(edge.nodeA, edge.nodeB);
+        this(edge.nodeA, edge.nodeB, edge.center);
     }
 
     @SuppressWarnings("unchecked")

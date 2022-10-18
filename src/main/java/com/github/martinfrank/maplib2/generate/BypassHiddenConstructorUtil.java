@@ -48,10 +48,13 @@ class BypassHiddenConstructorUtil {
     @SuppressWarnings({"unchecked", "rawtypes"})
     static <F extends Field, E extends Edge, N extends Node> Edge<F,E, N> createEdgeViaReflection(Node a, Node b) {
         Class<Edge> edgeClass = Edge.class;
+        double xc = (a.x + b.x) / 2d;
+        double yc = (a.y + b.y) / 2d;
+        Node center = createNodeViaReflection(xc, yc);
         try {
-            Constructor<Edge> constructor = edgeClass.getDeclaredConstructor(Node.class, Node.class);
+            Constructor<Edge> constructor = edgeClass.getDeclaredConstructor(Node.class, Node.class, Node.class);
             constructor.setAccessible(true);
-            Edge edge = constructor.newInstance(a, b);
+            Edge edge = constructor.newInstance(a, b, center);
             constructor.setAccessible(false);
             return edge;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
@@ -61,7 +64,7 @@ class BypassHiddenConstructorUtil {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <F extends Field, E extends Edge, N extends Node> Map<F,E,N> createMapViaReflection(Fields fields){
+    public static <F extends Field<F,E,N>, E extends Edge, N extends Node> Map<F,E,N> createMapViaReflection(Fields fields){
         Class<Map> mapClass = Map.class;
         try {
             Constructor<Map> constructor = mapClass.getDeclaredConstructor(Fields.class);

@@ -53,10 +53,16 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
         } while (!backTrackerStack.isEmpty());
     }
 
-    private List<F> getCarvingCandidates(F fields, Set<F> closed) {
-        List<F> candidates = fields.fields.stream().filter(f -> fields.isPassable() ).filter(f -> !closed.contains(f)).collect(Collectors.toList());
+    private List<F> getCarvingCandidates(F field, Set<F> closed) {
+        List<F> candidates = field.fields.stream().filter(f -> field.isPassable() ).filter(f -> !closed.contains(f)).collect(Collectors.toList());
         if(isFieldForm){
             List<F> unqualified = new ArrayList<>();
+            for(F candidate: candidates){
+                int openFieldNbgs = countOpenFields(candidate);
+                if (openFieldNbgs > 1){
+                    unqualified.add(candidate);
+                }
+            }
             candidates.removeAll(unqualified);
         }
 
@@ -64,6 +70,17 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
 
         Collections.shuffle(candidates);
         return candidates;
+    }
+
+    private int countOpenFields(F field) {
+        int numberOfOpen = 0;
+        for(E edge: field.edges){
+            Field opposite = field.getField(edge);
+            if(opposite.isPassable()){
+                numberOfOpen = numberOfOpen+1;
+            }
+        }
+        return numberOfOpen;
     }
 
     private void carveInto(F current, F next, Set<F> closed) {
@@ -87,7 +104,6 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
 
     private void closeMapBorders(Map<F, E, N> map, Set<F> closed) {
         List<F> borderFields = map.fields.getBorders();
-        System.out.println("size of borderFields: " + borderFields.size());
         addToClosed(borderFields, closed);
         borderFields.forEach(b -> b.setPassable(false));
     }

@@ -43,11 +43,6 @@ public class Field<THIS, E extends Edge, N extends Node> {
 
 
     public E getEdge(Field other) {
-//        Optional candidate = edges.stream().filter(e -> e.fieldA.equals(this) && e.fieldB.equals(other) || e.fieldB.equals(this) && e.fieldA.equals(other)).findAny();
-//        if(candidate.isPresent()){
-//            return (E)candidate.get();
-//        }
-//        return null;
         return edges.stream().filter(e -> equalFields(this, other, e)).findAny().orElse(null);
 
     }
@@ -57,5 +52,16 @@ public class Field<THIS, E extends Edge, N extends Node> {
             return false;
         }
         return edge.fieldA.equals(that) && edge.fieldB.equals(other) || edge.fieldB.equals(that) && edge.fieldA.equals(other);
+    }
+
+    @SuppressWarnings("unchecked")
+    public THIS getField(E edge) {
+        if(this.equals(edge.fieldA)){
+            return (THIS) edge.fieldB;
+        }
+        if(this.equals(edge.fieldB)){
+            return (THIS) edge.fieldA;
+        }
+        return null;
     }
 }
