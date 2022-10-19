@@ -73,30 +73,17 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
     }
 
     private List<F> findUnqualified(F start, List<F> candidates,List<F> borders) {
-        System.out.println("--------");
-        System.out.println("find candidate for count="+start.count);
-        System.out.println("start="+start);
-        System.out.println("candidates are "+candidates);
         List<F> unqualified = new ArrayList<>();
-        List<F> allStartFields = getFieldsByNode(start);
-        System.out.println("allStartFields are "+allStartFields);
-        for (F candidate : candidates) {
-            System.out.println("candidate="+candidate);
-            List<F> allCandidateFields = getFieldsByNode(candidate);
-            System.out.println("candidate.allStartFields are "+allStartFields);
-            allCandidateFields.removeAll(start.fields);
-            allCandidateFields.remove(start);
-            allCandidateFields.remove(candidate);
-            System.out.println("candidate.allStartFields reduced are "+allCandidateFields);
-            for (F candidateField : allCandidateFields) {
-                System.out.println("reduced.isPassable()="+candidateField.isPassable()+" at "+candidateField);
-                if (candidateField.isPassable()) {
+        for(F candidate: candidates){
+            List<F> nbgs = new ArrayList<>(candidate.fields);
+            nbgs.remove(start);
+            for(F nbg: nbgs){
+                if (nbg.isPassable()){
                     unqualified.add(candidate);
                     break;
                 }
             }
         }
-        System.out.println("unqualified are "+unqualified);
         return unqualified;
     }
 
