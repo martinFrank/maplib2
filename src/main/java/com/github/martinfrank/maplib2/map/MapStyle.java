@@ -2,7 +2,7 @@ package com.github.martinfrank.maplib2.map;
 
 public enum MapStyle {
 
-    SQUARE, HEX;//, TRIANGLE;
+    SQUARE, HEX, DELAUNAY;//, TRIANGLE;
 
     public enum Orientation {
         VERTICAL, HORIZONTAL

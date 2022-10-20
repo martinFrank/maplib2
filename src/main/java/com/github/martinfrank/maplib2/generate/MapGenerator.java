@@ -17,6 +17,8 @@ public class MapGenerator<F extends Field, E extends Edge, N extends Node> {
             case HEX:
                 return (new HexMapGenerator<F, E, N>()).generate(parameter, factory);
 //            case TRIANGLE: return (new TriangleMapGenerator()).generate(parameter);
+            case DELAUNAY:
+                return (new DelaunayMapGenerator<F, E, N>()).generate(parameter, factory);
             default:
                 throw new IllegalArgumentException("MapGenerationParameter are invalid");
         }
