@@ -16,6 +16,7 @@ import java.util.List;
 @SuppressWarnings("rawtypes")
 public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
 
+    @SuppressWarnings("unchecked")
     public Map<F, E, N> generate(MapGenerationParameter parameter, MapPartFactory<F, E, N> factory) {
         List<F> fields = new ArrayList<>();
         List<E> edges = new ArrayList<>();

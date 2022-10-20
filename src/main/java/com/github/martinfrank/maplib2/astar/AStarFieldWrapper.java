@@ -7,8 +7,8 @@ public class AStarFieldWrapper <F> {
     public final F field;
 
 //    private int f;
-    private int goDistance;
-    private int heuristicDistance;
+    private double g;
+    private double h;
 
     private AStarFieldWrapper<F> from;
 
@@ -16,12 +16,14 @@ public class AStarFieldWrapper <F> {
         this.field = field;
     }
 
-    public int getEstimate() {
-        return goDistance + heuristicDistance;
+    public double getf() {
+        return g + h;
     }
 
-    public int getGoDistance() {
-        return goDistance;
+
+
+    public double getG() {
+        return g;
     }
 
     public void setFrom(AStarFieldWrapper<F> from){
@@ -39,5 +41,17 @@ public class AStarFieldWrapper <F> {
     @Override
     public int hashCode() {
         return Objects.hash(field);
+    }
+
+    public void setG(double g) {
+        this.g = g;
+    }
+
+    public void setH(double h) {
+        this.h = h;
+    }
+
+    public AStarFieldWrapper<F> getFrom(){
+        return from;
     }
 }

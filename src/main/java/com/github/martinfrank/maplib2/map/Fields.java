@@ -49,7 +49,7 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         return borderFields;
     }
 
-    public F getRandomStart() {
+    public F getRandomFieldWithinBorders() {
         List<F> candidates = new ArrayList<>(internalFields);
         candidates.removeAll(getBorders());
         Collections.shuffle(candidates);

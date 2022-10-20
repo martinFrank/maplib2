@@ -1,4 +1,41 @@
 package com.github.martinfrank.maplib2.astar;
 
-public class Path {
+import com.github.martinfrank.maplib2.map.Field;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("rawtypes")
+public class Path <F extends Field>{
+
+    private final List<F> path = new ArrayList<>();
+
+    Path() {
+
+    }
+    Path(AStarFieldWrapper<F> end) {
+        AStarFieldWrapper<F> wrapper = end;
+        while(wrapper.getFrom() != null){
+            AStarFieldWrapper<F> next = wrapper.getFrom();
+            addFirst(wrapper.field);
+            wrapper = next;
+        }
+    }
+
+    public static <F extends Field<F, ?, ?>> Path<F> emptyPath() {
+        return new Path<>();
+    }
+
+
+    private void addFirst(F field ){
+        path.add(0, field);
+    }
+
+    public boolean isEmpty() {
+        return path.isEmpty();
+    }
+
+    public List<F> get(){
+        return path;
+    }
 }

@@ -38,8 +38,7 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
         }
 
         int count = 1;
-        //F current = map.fields.getRandomStart();
-        F current = map.fields.getField(1,1);
+        F current = map.fields.getRandomFieldWithinBorders();
         current.setPassable(true);
         current.count = count;
 

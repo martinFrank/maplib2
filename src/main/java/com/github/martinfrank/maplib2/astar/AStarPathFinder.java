@@ -1,32 +1,32 @@
 package com.github.martinfrank.maplib2.astar;
 
+import com.github.martinfrank.maplib2.geo.Line;
 import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.Map;
 import com.github.martinfrank.maplib2.map.Node;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AStarPathFinder {
 
-    public static <F extends Field<F, E, N>, E extends Edge<F, E, N>, N extends Node<F, E>> List<F> findPath(Walker walker, F start, F target, Map<F, E, N> map) {
+    public static <F extends Field<F, E, N>, E extends Edge<F, E, N>, N extends Node<F, E>> Path<F> findPath(Walker<F,E> walker, F start, F target, Map<F, E, N> map) {
         if (start == null || target == null || map == null) {
-            return Collections.emptyList();
+            return Path.emptyPath();//Collections.emptyList();
         }
 
         List<AStarFieldWrapper<F>> openList = new ArrayList<>();
         List<AStarFieldWrapper<F>> closedList = new ArrayList<>();
 
-        AStarFieldWrapper startWrapper = new AStarFieldWrapper(start);
-        AStarFieldWrapper targetWrapper = new AStarFieldWrapper(target);
+        AStarFieldWrapper<F> startWrapper = new AStarFieldWrapper<>(start);
+        AStarFieldWrapper<F> targetWrapper = new AStarFieldWrapper<>(target);
         openList.add(startWrapper);
 
         while (true) {
             AStarFieldWrapper<F> current = getLeastF(openList);
-            if (noWayFound(current, 500)) {
-                return Collections.emptyList();
+            if (noWayFound(current, walker.getMaximumSearchDepth())) {
+                return Path.emptyPath();
             }
             if (current.field.equals(target)) {
                 targetWrapper.setFrom(current);
@@ -34,55 +34,50 @@ public class AStarPathFinder {
             }
             openList.remove(current);
             closedList.add(current);
-            expandNode(current, map, walker, targetWrapper, openList, closedList);
+            expandNode(current, walker, targetWrapper, openList, closedList);
         }
 
-//        return buildPath(end);
-
-        return Collections.emptyList();
+        return new Path<>(targetWrapper);
     }
 
-    private static <F extends Field<F, ?, ?>> void expandNode(AStarFieldWrapper<F> current, Map<F, ?, ?> map, Walker walker, AStarFieldWrapper<F> end, List<AStarFieldWrapper<F>> openList, List<AStarFieldWrapper<F>> closedList ) {
+    @SuppressWarnings("rawtypes")
+    private static <F extends Field<F, E, ?>, E extends Edge> void expandNode(AStarFieldWrapper<F> current, Walker<F,E> walker, AStarFieldWrapper<F> end, List<AStarFieldWrapper<F>> openList, List<AStarFieldWrapper<F>> closedList ) {
 
         List<AStarFieldWrapper<F>> nodeList = getNeighbors(walker, current);
         for (AStarFieldWrapper<F> node : nodeList) {
-            int distance = walker.getEnterCosts(node);
-            addIfRequired(node, current, end, distance, openList, closedList);
-//            if (checkIsPassable(center, n, walker, map)) {
-//                F to = map.getField(n.x, n.y);
-//                if (to != null) {
-//                    int distance = walker.getEnterCosts(center, to);
-//                    addIfRequired(n, current, end, distance);
-//                }
-//            }
+            double distance = walker.getEnterCosts(current.field, node.field);
+            addIfRequired(current, node, end, distance, openList, closedList);
         }
 
     }
 
-    private static <F extends Field<F, ?, ?>> void addIfRequired(AStarFieldWrapper<F> nNode, AStarFieldWrapper<F> current, AStarFieldWrapper<F> end, int distance, List<AStarFieldWrapper<F>> openList, List<AStarFieldWrapper<F>> closedList) {
-//        if (!isPosInList(nNode, cList)) {
+    private static <F extends Field<F, ?, ?>> void addIfRequired(AStarFieldWrapper<F> current, AStarFieldWrapper<F> nNode, AStarFieldWrapper<F> end, double distance, List<AStarFieldWrapper<F>> openList, List<AStarFieldWrapper<F>> closedList) {
         if (!closedList.contains(nNode)) {
-//            if (openList.contains(nNode)) {
-//                AStarFieldWrapper<F> can = openList.get(nNode);
-//                if (nNode.getGoDistance() < nNode.g) {
-//                    can.from = current;
-//                    can.g = current.g + distance;
-//                    can.f = can.h + can.g;
-//                }
-//            } else {
-//                nNode.from = current;
-//                nNode.h = 10 * (Math.abs(end.x - nNode.x) + Math.abs(end.y - nNode.y));
-//                nNode.g = current.g + distance;
-//                nNode.f = nNode.h + nNode.g;
-//                oList.add(nNode);
-//            }
+            if (openList.contains(nNode)) {
+                AStarFieldWrapper<F> can = findInList(openList, nNode);
+                if (nNode.getG() < nNode.getG()) {
+                    can.setFrom(current);
+                    can.setG(current.getG() + distance);
+                }
+            } else {
+                nNode.setFrom(current);
+                double h = Line.distance(nNode.field.center, end.field.center);
+                nNode.setH(10d*h);
+                nNode.setG( current.getG() + distance);
+                openList.add(nNode);
+            }
         }
     }
 
-    private static <F extends Field<F, ?, ?>> List<AStarFieldWrapper<F>> getNeighbors(Walker walker, AStarFieldWrapper<F> current) {
+    private static <F extends Field<F, ?, ?>> AStarFieldWrapper<F> findInList(List<AStarFieldWrapper<F>> list, AStarFieldWrapper<F> sample) {
+        return list.stream().filter(asw -> asw.equals(sample) ).findAny().get();
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static <F extends Field<F, E, ?>, E extends Edge> List<AStarFieldWrapper<F>> getNeighbors(Walker<F, E> walker, AStarFieldWrapper<F> current) {
         List<AStarFieldWrapper<F>> neighbors = new ArrayList<>();
         for(F field: current.field.fields){
-            if(walker.canEnter(field)){
+            if(walker.canEnter(current.field, field)){
                 neighbors.add(new AStarFieldWrapper<>(field));
             }
         }
@@ -90,18 +85,19 @@ public class AStarPathFinder {
     }
 
     private static <F extends Field<F, ?, ?>> AStarFieldWrapper<F> getLeastF(List<AStarFieldWrapper<F>> list) {
-        int cf = Integer.MAX_VALUE;
+        double currentF = 1000000;
         AStarFieldWrapper<F> ret = null;
         for (AStarFieldWrapper<F> n : list) {
-            if (n.getEstimate() < cf) {
-                cf = n.getEstimate();
+            if (n.getf() < currentF) {
+                currentF = n.getf();
                 ret = n;
             }
         }
         return ret;
     }
 
-    private static boolean noWayFound(AStarFieldWrapper current, int maxPathLength) {
-        return current == null || current.getGoDistance() > maxPathLength * 10;
+    @SuppressWarnings("rawtypes")
+    private static <F extends Field> boolean noWayFound(AStarFieldWrapper<F> current, double maxPathLength) {
+        return current == null || current.getG() > maxPathLength * 10;
     }
 }

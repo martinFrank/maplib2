@@ -6,7 +6,7 @@ import com.github.martinfrank.maplib2.map.Map;
 import com.github.martinfrank.maplib2.map.MapPartFactory;
 import com.github.martinfrank.maplib2.map.Node;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unused"})
 public class MapGenerator<F extends Field, E extends Edge, N extends Node> {
 
     @SuppressWarnings("rawtypes")

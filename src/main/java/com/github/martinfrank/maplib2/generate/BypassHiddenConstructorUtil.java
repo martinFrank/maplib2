@@ -15,7 +15,7 @@ import java.util.Optional;
 
 class BypassHiddenConstructorUtil {
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     static <F extends Field, E extends Edge, N extends Node> Node<F,E> createNodeViaReflection(double x, double y) {
         Class<Node> fieldClass = Node.class;
         try {
