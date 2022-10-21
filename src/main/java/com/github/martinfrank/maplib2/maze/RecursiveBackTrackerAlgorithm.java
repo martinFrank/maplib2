@@ -33,12 +33,12 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
         Deque<F> backTrackerStack = new ArrayDeque<>();
         Set<F> closed = new HashSet<>();
         closeAllPassage(map);
-        List<F> borderFields = map.fields.getBorders();
+        List<F> borderFields = map.getBorders();
         if (isFieldForm) {
             closeMapBorders(borderFields, closed);
         }
 
-        F current = map.fields.getRandomFieldWithinBorders();
+        F current = map.getRandomFieldWithinBorders();
         current.setPassable(true);
 
         do {
@@ -90,7 +90,7 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
     }
 
     private void closeAllPassage(Map<F, E, N> map) {
-        map.fields.stream().forEach(this::closePassage);
+        map.fields().forEach(this::closePassage);
     }
 
     private void closePassage(F field) {

@@ -1,6 +1,6 @@
 package com.github.martinfrank.maplib2.generate;
 
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
 import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.Fields;
@@ -20,7 +20,7 @@ public class SquareMapGenerator<F extends Field, E extends Edge, N extends Node>
         List<F> fields = new ArrayList<>();
         List<E> edges = new ArrayList<>();
         List<N> nodes = new ArrayList<>();
-        for (Point position : parameter.getPositions()) {
+        for (DiscreetPoint position : parameter.getPositions()) {
             fields.add(createSquareField(position, edges, nodes, factory));
         }
         BypassFinalFieldsUtil.setFieldsToNodes(fields, nodes);
@@ -34,7 +34,7 @@ public class SquareMapGenerator<F extends Field, E extends Edge, N extends Node>
 
 
     @SuppressWarnings("unchecked")
-    private F createSquareField(Point position, List<E> edgePool, List<N> pointPool, MapPartFactory<F, E, N> factory) {
+    private F createSquareField(DiscreetPoint position, List<E> edgePool, List<N> pointPool, MapPartFactory<F, E, N> factory) {
 
         N center = factory.createNode(BypassHiddenConstructorUtil.createNodeViaReflection((2 * position.x) + 1, (2 * position.y) + 1));
 

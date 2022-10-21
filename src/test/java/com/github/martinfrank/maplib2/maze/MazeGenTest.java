@@ -17,7 +17,7 @@ public class MazeGenTest {
         //given
         MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(8).height(8).build();
         Map<Field, Edge, Node> map = new MapGenerator<>().generate(parameter);
-        Field f = map.fields.getField(2,2);
+        Field f = map.getField(2,2);
 
         //when
         List<Field> surrounds = RecursiveBackTrackerAlgorithm.FIELDS.getFieldsByNode(f);

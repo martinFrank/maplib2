@@ -1,13 +1,15 @@
 package com.github.martinfrank.maplib2.map;
 
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
+import com.github.martinfrank.maplib2.geo.FloatingPoint;
 import com.github.martinfrank.maplib2.geo.Polygon;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Node<F extends Field, E extends Edge> extends Point {
+@SuppressWarnings("rawtypes")
+public class Node<F extends Field, E extends Edge> extends FloatingPoint {
 
     public final Polygon polygon;
 

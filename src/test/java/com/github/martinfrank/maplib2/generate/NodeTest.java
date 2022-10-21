@@ -1,6 +1,5 @@
 package com.github.martinfrank.maplib2.generate;
 
-import com.github.martinfrank.maplib2.geo.Point;
 import com.github.martinfrank.maplib2.map.Node;
 import junit.framework.TestCase;
 import org.junit.Assert;

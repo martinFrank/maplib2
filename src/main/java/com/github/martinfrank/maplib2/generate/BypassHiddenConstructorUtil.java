@@ -1,6 +1,6 @@
 package com.github.martinfrank.maplib2.generate;
 
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
 import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.Fields;
@@ -31,10 +31,10 @@ class BypassHiddenConstructorUtil {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    static <F extends Field, E extends Edge, N extends Node> Field<F, E,N> createFieldViaReflection(Point position, List<N> nodes, List<E> edges, N center) {
+    static <F extends Field, E extends Edge, N extends Node> Field<F, E,N> createFieldViaReflection(DiscreetPoint position, List<N> nodes, List<E> edges, N center) {
         Class<Field> fieldClass = Field.class;
         try {
-            Constructor<Field> constructor = fieldClass.getDeclaredConstructor(Point.class, List.class, List.class, Node.class);
+            Constructor<Field> constructor = fieldClass.getDeclaredConstructor(DiscreetPoint.class, List.class, List.class, Node.class);
             constructor.setAccessible(true);
             Field field = constructor.newInstance(position, nodes, edges, center);
             constructor.setAccessible(false);

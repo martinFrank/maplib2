@@ -1,6 +1,6 @@
 package com.github.martinfrank.maplib2.map;
 
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
 import com.github.martinfrank.maplib2.geo.Polygon;
 
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.List;
 @SuppressWarnings("rawtypes")
 public class Field<THIS, E extends Edge, N extends Node> {
 
-    public final Point position;
+    public final DiscreetPoint position;
     public final List<N> nodes;
     public final List<E> edges;
     public final List<THIS> fields = null;
@@ -19,7 +19,7 @@ public class Field<THIS, E extends Edge, N extends Node> {
     private boolean isPassable;
 
 
-    private Field(Point position, List<N> nodes, List<E> edges, N center) {
+    private Field(DiscreetPoint position, List<N> nodes, List<E> edges, N center) {
         this.position = position;
         this.nodes = Collections.unmodifiableList(nodes);
         this.edges = Collections.unmodifiableList(edges);

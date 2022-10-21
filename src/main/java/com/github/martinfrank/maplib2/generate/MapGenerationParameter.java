@@ -1,13 +1,10 @@
 package com.github.martinfrank.maplib2.generate;
 
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
 import com.github.martinfrank.maplib2.map.MapStyle;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class MapGenerationParameter {
 
@@ -72,11 +69,11 @@ public class MapGenerationParameter {
     }
 
 
-    List<Point> getPositions() {
-        List<Point> points = new ArrayList<>();
+    List<DiscreetPoint> getPositions() {
+        List<DiscreetPoint> points = new ArrayList<>();
         for (int dy = 0; dy < height; dy++) {
             for (int dx = 0; dx < width; dx++) {
-                points.add(new Point(dx, dy));
+                points.add(new DiscreetPoint(dx, dy));
             }
         }
         return points;

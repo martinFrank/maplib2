@@ -15,8 +15,8 @@ public class MapTest {
         MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(2).height(1).build();
         Map<Field, Edge, Node> map = new MapGenerator<>().generate(parameter, new DefaultMapPartFactory());
 
-        Field<Field, Edge,Node> field_0_0 = map.fields.getField(0, 0);
-        Field<Field, Edge,Node> field_1_0 = map.fields.getField(1,0);
+        Field<Field, Edge,Node> field_0_0 = map.getField(0, 0);
+        Field<Field, Edge,Node> field_1_0 = map.getField(1,0);
 
         Edge<Field, Edge, Node> same = null;
         for (Edge<Field, Edge, Node> edges00: field_0_0.edges){

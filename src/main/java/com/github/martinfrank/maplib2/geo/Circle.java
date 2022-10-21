@@ -1,7 +1,6 @@
 package com.github.martinfrank.maplib2.geo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,16 +29,16 @@ public class Circle {
 	 * @param radius of the circle
 	 * @return a list of points representing a circle (sorted clockwise)
 	 */
-	public static List<Point> getCircle(int x0, int y0, int radius) {
-		List<Point> circle = new ArrayList<>();
+	public static List<DiscreetPoint> getCircle(int x0, int y0, int radius) {
+		List<DiscreetPoint> circle = new ArrayList<>();
 		int x = 0;
 		int y = radius;
 		int dp = 1 - radius;
 
-        addPoint(circle, new Point(x0, y0 + radius));
-        addPoint(circle, new Point(x0, y0 - radius));
-        addPoint(circle, new Point(x0 + radius, y0));
-        addPoint(circle, new Point(x0 - radius, y0));
+        addPoint(circle, new DiscreetPoint(x0, y0 + radius));
+        addPoint(circle, new DiscreetPoint(x0, y0 - radius));
+        addPoint(circle, new DiscreetPoint(x0 + radius, y0));
+        addPoint(circle, new DiscreetPoint(x0 - radius, y0));
 
 		do {
 			if (dp < 0) {
@@ -48,21 +47,21 @@ public class Circle {
 				dp = dp + 2 * (++x) - 2 * (--y) + 5;
 			}
 
-            addPoint(circle, new Point(x0 + x, y0 + y)); // For the 8 octants
-            addPoint(circle, new Point(x0 - x, y0 + y));
-            addPoint(circle, new Point(x0 + x, y0 - y));
-            addPoint(circle, new Point(x0 - x, y0 - y));
-            addPoint(circle, new Point(x0 + y, y0 + x));
-            addPoint(circle, new Point(x0 - y, y0 + x));
-            addPoint(circle, new Point(x0 + y, y0 - x));
-            addPoint(circle, new Point(x0 - y, y0 - x));
+            addPoint(circle, new DiscreetPoint(x0 + x, y0 + y)); // For the 8 octants
+            addPoint(circle, new DiscreetPoint(x0 - x, y0 + y));
+            addPoint(circle, new DiscreetPoint(x0 + x, y0 - y));
+            addPoint(circle, new DiscreetPoint(x0 - x, y0 - y));
+            addPoint(circle, new DiscreetPoint(x0 + y, y0 + x));
+            addPoint(circle, new DiscreetPoint(x0 - y, y0 + x));
+            addPoint(circle, new DiscreetPoint(x0 + y, y0 - x));
+            addPoint(circle, new DiscreetPoint(x0 - y, y0 - x));
 		} while (x < y);
 		CirclePointComparator cc = new CirclePointComparator(x0, y0);
 		circle.sort(cc);
 		return circle;
 	}
 
-    private static void addPoint(List<Point> circle, Point geoPoint) {
+    private static void addPoint(List<DiscreetPoint> circle, DiscreetPoint geoPoint) {
         if (!circle.contains(geoPoint)) {
             circle.add(geoPoint);
         }
@@ -75,8 +74,8 @@ public class Circle {
 	 * @param radius of the circle
 	 * @return a list of points representing a circle (sorted clockwise)
 	 */
-	public static List<Point> getCircle(Point center, int radius) {
-		return getCircle((int) center.x, (int) center.y, radius);
+	public static List<DiscreetPoint> getCircle(DiscreetPoint center, int radius) {
+		return getCircle(center.x, center.y, radius);
 	}
 
 }

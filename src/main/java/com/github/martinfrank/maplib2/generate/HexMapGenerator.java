@@ -1,6 +1,6 @@
 package com.github.martinfrank.maplib2.generate;
 
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
 import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.Fields;
@@ -21,7 +21,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
         List<F> fields = new ArrayList<>();
         List<E> edges = new ArrayList<>();
         List<N> nodes = new ArrayList<>();
-        for (Point position : parameter.getPositions()) {
+        for (DiscreetPoint position : parameter.getPositions()) {
             if (parameter.orientation == MapStyle.Orientation.VERTICAL) {
                 fields.add(createVerticalHexField(position, edges, nodes, factory));
             }
@@ -38,7 +38,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
     }
 
     @SuppressWarnings("unchecked")
-    private F createHorizontalHexField(Point position, List<E> edgePool, List<N> nodePools, MapPartFactory<F, E, N> factory) {
+    private F createHorizontalHexField(DiscreetPoint position, List<E> edgePool, List<N> nodePools, MapPartFactory<F, E, N> factory) {
 
         double cx = 2 + 3 * position.x;
         double cy = isEvenColumn(position) ? 2 + 4 * position.y : 4 + 4 * position.y;
@@ -67,7 +67,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
 
 
     @SuppressWarnings("unchecked")
-    private F createVerticalHexField(Point position, List<E> edgePool, List<N> pointPool, MapPartFactory<F, E, N> factory) {
+    private F createVerticalHexField(DiscreetPoint position, List<E> edgePool, List<N> pointPool, MapPartFactory<F, E, N> factory) {
 
         double cx = isEvenRow(position) ? 2 + 4 * position.x : 4 + 4 * position.x;
         double cy = 2 + 3 * position.y;
@@ -94,12 +94,12 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
         return factory.createField(field);
     }
 
-    private boolean isEvenRow(Point p) {
-        return ((int) p.y) % 2 == 0;
+    private boolean isEvenRow(DiscreetPoint p) {
+        return p.y % 2 == 0;
     }
 
-    private boolean isEvenColumn(Point p) {
-        return ((int) p.x) % 2 == 0;
+    private boolean isEvenColumn(DiscreetPoint p) {
+        return p.x % 2 == 0;
     }
 
 }

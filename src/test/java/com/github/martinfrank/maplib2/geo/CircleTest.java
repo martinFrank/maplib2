@@ -9,17 +9,17 @@ public class CircleTest {
 
     @Test
     public void circleTest() {
-        Point center = new Point(0,0);
-        List<Point> circle = Circle.getCircle(center, 2);
+        DiscreetPoint center = new DiscreetPoint(0,0);
+        List<DiscreetPoint> circle = Circle.getCircle(center, 2);
 
-        for (Point point : circle) {
+        for (DiscreetPoint point : circle) {
             System.out.println(point);
         }
 
-        Assert.assertTrue(circle.contains(new Point(0, 2)));
-        Assert.assertTrue(circle.contains(new Point(2, 0)));
-        Assert.assertTrue(circle.contains(new Point(0, -2)));
-        Assert.assertTrue(circle.contains(new Point(-2, 0)));
+        Assert.assertTrue(circle.contains(new DiscreetPoint(0, 2)));
+        Assert.assertTrue(circle.contains(new DiscreetPoint(2, 0)));
+        Assert.assertTrue(circle.contains(new DiscreetPoint(0, -2)));
+        Assert.assertTrue(circle.contains(new DiscreetPoint(-2, 0)));
 
     }
 }

@@ -1,7 +1,8 @@
 package com.github.martinfrank.maplib2.map;
 
+import com.github.martinfrank.maplib2.geo.FloatingPoint;
 import com.github.martinfrank.maplib2.geo.Line;
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,8 +18,8 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         internalFields = Collections.unmodifiableList(fields);
     }
 
-    public F getField(double x, double y) {
-        Point position = new Point(x, y);
+    public F getField(int x, int y) {
+        DiscreetPoint position = new DiscreetPoint(x, y);
         return internalFields.stream().filter(f -> f.position.equals(position)).findAny().orElse(null);
     }
 
@@ -60,9 +61,9 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         return internalFields;
     }
 
-    public F getFieldOnScreen(Point point, double scale, double catchRadius) {
+    public F getFieldOnScreen(FloatingPoint point, double scale, double catchRadius) {
         for(F field: internalFields){
-            Point center = field.center.polygon.getScaled(scale).get(0);
+            FloatingPoint center = field.center.polygon.getScaled(scale).get(0);
             if(Line.distance(point,center) < catchRadius){
                 return field;
             }
@@ -71,11 +72,11 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
     }
 
     @SuppressWarnings("unchecked")
-    public E getEdgeOnScreen(Point point, double scale, int catchRadius) {
+    public E getEdgeOnScreen(FloatingPoint point, double scale, int catchRadius) {
         for(F field: internalFields){
             for(Object edgeObject: field.edges) {
                 E edge = (E) edgeObject;
-                Point center = edge.center.polygon.getScaled(scale).get(0);
+                FloatingPoint center = edge.center.polygon.getScaled(scale).get(0);
                 if (Line.distance(point, center) < catchRadius) {
                     return edge;
                 }
@@ -85,11 +86,11 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
     }
 
     @SuppressWarnings("unchecked")
-    public N getNodeOnScreen(Point point, double scale, int catchRadius) {
+    public N getNodeOnScreen(FloatingPoint point, double scale, int catchRadius) {
         for(F field: internalFields){
             for(Object nodeObject: field.nodes) {
                 N node = (N) nodeObject;
-                Point center = node.polygon.getScaled(scale).get(0);
+                FloatingPoint center = node.polygon.getScaled(scale).get(0);
                 if (Line.distance(point, center) < catchRadius) {
                     return node;
                 }

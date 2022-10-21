@@ -1,7 +1,5 @@
 package com.github.martinfrank.maplib2.geo;
 
-import com.github.martinfrank.maplib2.map.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,9 +9,9 @@ public class Polygon {
     public double width;
     public double height;
 
-    private final List<Point> originalPoints;
+    private final List<FloatingPoint> originalPoints;
 
-    public Polygon(List<? extends Point> nodes) {
+    public Polygon(List<? extends FloatingPoint> nodes) {
         double minx = nodes.stream().mapToDouble(n-> n.x).min().orElse(0);
         double miny = nodes.stream().mapToDouble(n-> n.y).min().orElse(0);
         double maxx = nodes.stream().mapToDouble(n-> n.x).max().orElse(0);
@@ -24,8 +22,8 @@ public class Polygon {
     }
 
 
-    public List<Point> getScaled(double scale) {
-        return originalPoints.stream().map(p -> new Point(p.x*scale, p.y*scale)).collect(Collectors.toList());
+    public List<FloatingPoint> getScaled(double scale) {
+        return originalPoints.stream().map(p -> new FloatingPoint(p.x*scale, p.y*scale)).collect(Collectors.toList());
     }
 
     public double getScaledWidth(double scale){

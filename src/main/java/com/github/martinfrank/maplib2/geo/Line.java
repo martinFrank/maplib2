@@ -27,12 +27,12 @@ public final class Line {
      * @param target point (GeoPoint) of the end of the line
      * @return the line as List
      */
-    public static List<Point> getLine(Point start, Point target) {
-        ArrayList<Point> ret = new ArrayList<>();
-        int x0 = (int) start.x;
-        int y0 = (int) start.y;
-        int x1 = (int) target.x;
-        int y1 = (int) target.y;
+    public static List<DiscreetPoint> getLine(DiscreetPoint start, DiscreetPoint target) {
+        ArrayList<DiscreetPoint> ret = new ArrayList<>();
+        int x0 = start.x;
+        int y0 = start.y;
+        int x1 = target.x;
+        int y1 = target.y;
         int sx = 0;
         int sy = 0;
         int dx = Math.abs(x1 - x0);
@@ -42,7 +42,7 @@ public final class Line {
         int err = dx + dy;
         int e2; /* error value e_xy */
         while (true) {
-            ret.add(new Point(x0, y0));
+            ret.add(new DiscreetPoint(x0, y0));
             if (x0 == x1 && y0 == y1) {
                 break;
             }
@@ -67,7 +67,11 @@ public final class Line {
      * @param to   is the destinty point (GeoPoint)
      * @return length of line
      */
-    public static double distance(Point from, Point to) {
+    public static double distance(DiscreetPoint from, DiscreetPoint to) {
+        return distance(from.x, from.y, to.x, to.y);
+    }
+
+    public static double distance(FloatingPoint from, FloatingPoint to) {
         return distance(from.x, from.y, to.x, to.y);
     }
 
@@ -82,8 +86,8 @@ public final class Line {
      * @return length of line
      */
     public static double distance(double fromx, double fromy, double tox, double toy) {
-        double dx = (double) tox - (double) fromx;
-        double dy = (double) toy - (double) fromy;
+        double dx = tox - fromx;
+        double dy = toy - fromy;
         return Math.sqrt((dx * dx) + (dy * dy));
     }
 }

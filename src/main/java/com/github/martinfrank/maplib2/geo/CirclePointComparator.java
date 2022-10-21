@@ -7,18 +7,18 @@ import java.util.Comparator;
  * @author martinFrank
  *
  */
-class CirclePointComparator implements Comparator<Point>{
+class CirclePointComparator implements Comparator<DiscreetPoint>{
 
 	/**
 	 * center to which the points are compared - default = 0/0
 	 */
-	private final Point center;
+	private final DiscreetPoint center;
 
 	/**
 	 * comparator with non-default center (default would have been 0/0)
      * @param center center of the comperator
 	 */
-    CirclePointComparator(Point center){
+    CirclePointComparator(DiscreetPoint center){
 		this.center = center;
 	}
 	
@@ -28,18 +28,18 @@ class CirclePointComparator implements Comparator<Point>{
      * @param cy center y of the comperator
 	 */
 	CirclePointComparator(int cx, int cy){
-		this(new Point(cx, cy) );
+		this(new DiscreetPoint(cx, cy) );
 	}
 	
 	/**
 	 * comparator with default center (0/0)
 	 */
 	CirclePointComparator(){
-		this(new Point(0,0) );
+		this(new DiscreetPoint(0,0) );
 	}
 	
 	@Override
-	public int compare(Point o1, Point o2) {
+	public int compare(DiscreetPoint o1, DiscreetPoint o2) {
 		GlPolarPoint p1 = new GlPolarPoint(o1, center);
 		GlPolarPoint p2 = new GlPolarPoint(o2, center);
 		return p1.compareTo(p2);
@@ -56,7 +56,7 @@ class CirclePointComparator implements Comparator<Point>{
 		private final double theta;
 		private final double length;
 
-        GlPolarPoint(Point point, Point center) {
+        GlPolarPoint(DiscreetPoint point, DiscreetPoint center) {
 			double dx = point.x - center.x;
 			double dy = point.y - center.y;
 			theta = Math.atan2(dy, dx);
