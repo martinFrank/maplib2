@@ -20,7 +20,7 @@ public class SquareMapGenerator<F extends Field, E extends Edge, N extends Node>
         List<F> fields = new ArrayList<>();
         List<E> edges = new ArrayList<>();
         List<N> nodes = new ArrayList<>();
-        for (Point position : MapGeneratorUtils.mapSizeToPoints(parameter)) {
+        for (Point position : parameter.getPositions()) {
             fields.add(createSquareField(position, edges, nodes, factory));
         }
         BypassFinalFieldsUtil.setFieldsToNodes(fields, nodes);

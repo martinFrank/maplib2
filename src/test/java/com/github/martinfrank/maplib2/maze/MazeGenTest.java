@@ -1,6 +1,5 @@
 package com.github.martinfrank.maplib2.maze;
 
-import com.github.martinfrank.maplib2.generate.DefaultMapPartFactory;
 import com.github.martinfrank.maplib2.generate.MapGenerationParameter;
 import com.github.martinfrank.maplib2.generate.MapGenerator;
 import com.github.martinfrank.maplib2.map.Edge;
@@ -17,7 +16,7 @@ public class MazeGenTest {
     public void doIt(){
         //given
         MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(8).height(8).build();
-        Map<Field, Edge, Node> map = new MapGenerator<>().generate(parameter, new DefaultMapPartFactory());
+        Map<Field, Edge, Node> map = new MapGenerator<>().generate(parameter);
         Field f = map.fields.getField(2,2);
 
         //when

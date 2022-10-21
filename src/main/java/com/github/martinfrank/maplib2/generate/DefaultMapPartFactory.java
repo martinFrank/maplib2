@@ -6,7 +6,7 @@ import com.github.martinfrank.maplib2.map.MapPartFactory;
 import com.github.martinfrank.maplib2.map.Node;
 
 @SuppressWarnings("rawtypes")
-public class DefaultMapPartFactory implements MapPartFactory<Field, Edge, Node> {
+class DefaultMapPartFactory implements MapPartFactory<Field, Edge, Node> {
 
     @Override
     public Field createField(Field field) {

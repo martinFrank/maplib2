@@ -13,10 +13,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends Edge<F, E, N>, N extends Node<F, E>> {
 
-    private final boolean isFieldForm;
+    private final boolean isFieldForm; //verses edge form
 
     @SuppressWarnings("rawtypes")
     public static RecursiveBackTrackerAlgorithm FIELDS = new RecursiveBackTrackerAlgorithm<>(true);
@@ -37,13 +38,11 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
             closeMapBorders(borderFields, closed);
         }
 
-        int count = 1;
         F current = map.fields.getRandomFieldWithinBorders();
         current.setPassable(true);
-        current.count = count;
 
         do {
-            List<F> nbgs = getCarvingCandidates(current, closed, borderFields);
+            List<F> nbgs = getCarvingCandidates(current, closed);
             if (nbgs.isEmpty()) {
                 current = backTrackerStack.pop();
             } else {
@@ -51,54 +50,43 @@ public class RecursiveBackTrackerAlgorithm<F extends Field<F, E, N>, E extends E
                 carveInto(current, next);
                 backTrackerStack.push(current);
                 current = next;
-                count++;
-                current.count = count;
                 closed.add(current);
             }
         } while (!backTrackerStack.isEmpty());
     }
 
-    private List<F> getCarvingCandidates(F field, Set<F> closed, List<F> borderFields) {
-        List<F> candidates = field.fields.stream()
+    private List<F> getCarvingCandidates(F field, Set<F> closed) {
+        List<F> candidates = field.fields.stream() //no NPE here, I know better
                 .filter(f -> !closed.contains(f)).collect(Collectors.toList());
         if (isFieldForm) {
-            List<F> unqualified = findUnqualified(field, candidates, borderFields);
-            candidates.removeAll(unqualified);
+            removeUnqualified(field, candidates);
         }
-
-
         Collections.shuffle(candidates);
         return candidates;
     }
 
-    private List<F> findUnqualified(F start, List<F> candidates,List<F> borders) {
-        List<F> unqualified = new ArrayList<>();
-        for(F candidate: candidates){
-            List<F> nbgs = new ArrayList<>(candidate.fields);
-            nbgs.remove(start);
-            for(F nbg: nbgs){
-                if (nbg.isPassable()){
-                    unqualified.add(candidate);
-                    break;
-                }
-            }
-        }
-        return unqualified;
+    private void removeUnqualified(F start, List<F> candidates) {
+        List<F> unqualified = candidates.stream()
+                .filter(can -> hasPassableNeighbours(can, start))
+                .collect(Collectors.toList());
+        candidates.removeAll(unqualified);
     }
 
-    //visible for testing
-    List<F> getFieldsByNode(F field) {
-        Set<F> fields = new HashSet<>();
-        for (N node : field.nodes) {
-            fields.addAll(node.fields);
-        }
-        return new ArrayList<>(fields);
+    private boolean hasPassableNeighbours(F candidate, F start) {
+        List<F> neighbours = new ArrayList<>(candidate.fields);//no NPE here, I know better
+        neighbours.remove(start);
+        return neighbours.stream().anyMatch(Field::isPassable);
     }
 
     private void carveInto(F current, F next) {
         E edge = current.getEdge(next);
         edge.setPassable(true);
         next.setPassable(true);
+    }
+
+    //visible for testing
+    List<F> getFieldsByNode(F field) {
+        return field.fields.stream().flatMap(f -> f.fields.stream()).distinct().collect(Collectors.toList());//no NPE here, I know better
     }
 
     private void closeAllPassage(Map<F, E, N> map) {

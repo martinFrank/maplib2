@@ -1,6 +1,13 @@
 package com.github.martinfrank.maplib2.generate;
 
+import com.github.martinfrank.maplib2.geo.Point;
 import com.github.martinfrank.maplib2.map.MapStyle;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class MapGenerationParameter {
 
@@ -62,6 +69,17 @@ public class MapGenerationParameter {
 
             return new MapGenerationParameter(mapStyle, orientation, width, height);
         }
+    }
+
+
+    List<Point> getPositions() {
+        List<Point> points = new ArrayList<>();
+        for (int dy = 0; dy < height; dy++) {
+            for (int dx = 0; dx < width; dx++) {
+                points.add(new Point(dx, dy));
+            }
+        }
+        return points;
     }
 
 }

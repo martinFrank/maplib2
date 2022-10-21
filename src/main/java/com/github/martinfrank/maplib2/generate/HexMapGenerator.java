@@ -21,7 +21,7 @@ public class HexMapGenerator<F extends Field, E extends Edge, N extends Node> {
         List<F> fields = new ArrayList<>();
         List<E> edges = new ArrayList<>();
         List<N> nodes = new ArrayList<>();
-        for (Point position : MapGeneratorUtils.mapSizeToPoints(parameter)) {
+        for (Point position : parameter.getPositions()) {
             if (parameter.orientation == MapStyle.Orientation.VERTICAL) {
                 fields.add(createVerticalHexField(position, edges, nodes, factory));
             }

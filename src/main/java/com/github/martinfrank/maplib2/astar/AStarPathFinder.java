@@ -42,13 +42,11 @@ public class AStarPathFinder {
 
     @SuppressWarnings("rawtypes")
     private static <F extends Field<F, E, ?>, E extends Edge> void expandNode(AStarFieldWrapper<F> current, Walker<F,E> walker, AStarFieldWrapper<F> end, List<AStarFieldWrapper<F>> openList, List<AStarFieldWrapper<F>> closedList ) {
-
         List<AStarFieldWrapper<F>> nodeList = getNeighbors(walker, current);
         for (AStarFieldWrapper<F> node : nodeList) {
             double distance = walker.getEnterCosts(current.field, node.field);
             addIfRequired(current, node, end, distance, openList, closedList);
         }
-
     }
 
     private static <F extends Field<F, ?, ?>> void addIfRequired(AStarFieldWrapper<F> current, AStarFieldWrapper<F> nNode, AStarFieldWrapper<F> end, double distance, List<AStarFieldWrapper<F>> openList, List<AStarFieldWrapper<F>> closedList) {
@@ -88,8 +86,8 @@ public class AStarPathFinder {
         double currentF = 1000000;
         AStarFieldWrapper<F> ret = null;
         for (AStarFieldWrapper<F> n : list) {
-            if (n.getf() < currentF) {
-                currentF = n.getf();
+            if (n.getF() < currentF) {
+                currentF = n.getF();
                 ret = n;
             }
         }

@@ -9,9 +9,12 @@ import java.util.List;
 public class Path <F extends Field>{
 
     private final List<F> path = new ArrayList<>();
+    public final F destiny;
+    public final F start;
 
     Path() {
-
+        start = null;
+        destiny = null;
     }
     Path(AStarFieldWrapper<F> end) {
         AStarFieldWrapper<F> wrapper = end;
@@ -20,6 +23,8 @@ public class Path <F extends Field>{
             addFirst(wrapper.field);
             wrapper = next;
         }
+        this.destiny = end.field;
+        this.start = wrapper.field;
     }
 
     public static <F extends Field<F, ?, ?>> Path<F> emptyPath() {

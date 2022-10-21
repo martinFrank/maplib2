@@ -47,4 +47,5 @@ public class Point {
         double pythagoras = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
         return pythagoras < distance;
     }
+
 }

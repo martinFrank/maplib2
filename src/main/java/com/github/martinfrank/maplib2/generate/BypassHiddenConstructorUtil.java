@@ -64,7 +64,7 @@ class BypassHiddenConstructorUtil {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <F extends Field<F,E,N>, E extends Edge, N extends Node> Map<F,E,N> createMapViaReflection(Fields fields){
+    static <F extends Field<F,E,N>, E extends Edge, N extends Node> Map<F,E,N> createMapViaReflection(Fields fields){
         Class<Map> mapClass = Map.class;
         try {
             Constructor<Map> constructor = mapClass.getDeclaredConstructor(Fields.class);
@@ -80,7 +80,7 @@ class BypassHiddenConstructorUtil {
 
 
     @SuppressWarnings("rawtypes")
-    public static <F extends Field, E extends Edge, N extends Node> N createIfNotExists(List<N> pointPool, double x, double y, MapPartFactory<F, E, N> factory) {
+    static <F extends Field, E extends Edge, N extends Node> N createIfNotExists(List<N> pointPool, double x, double y, MapPartFactory<F, E, N> factory) {
         Node<F,E> node = BypassHiddenConstructorUtil.createNodeViaReflection(x,y);
         N newNode = factory.createNode(node);
         Optional<N> existing = pointPool.stream().filter(newNode::equals).findAny();
@@ -93,7 +93,7 @@ class BypassHiddenConstructorUtil {
     }
 
     @SuppressWarnings("rawtypes")
-    public static <F extends Field, E extends Edge, N extends Node> E createIfNotExists(List<E> edgePool, Node<F,E> a, Node<F,E> b, MapPartFactory<F, E, N> factory) {
+    static <F extends Field, E extends Edge, N extends Node> E createIfNotExists(List<E> edgePool, Node<F,E> a, Node<F,E> b, MapPartFactory<F, E, N> factory) {
         Edge<F,E, N> newEdge = BypassHiddenConstructorUtil.createEdgeViaReflection(a, b);
         E edge = factory.createEdge(newEdge);
         Optional<E> existing = edgePool.stream().filter(edge::equals).findAny();

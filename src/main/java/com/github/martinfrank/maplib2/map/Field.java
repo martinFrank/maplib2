@@ -18,8 +18,6 @@ public class Field<THIS, E extends Edge, N extends Node> {
 
     private boolean isPassable;
 
-    public int count;
-
 
     private Field(Point position, List<N> nodes, List<E> edges, N center) {
         this.position = position;
@@ -58,10 +56,10 @@ public class Field<THIS, E extends Edge, N extends Node> {
 
     @SuppressWarnings("unchecked")
     public THIS getField(E edge) {
-        if(this.equals(edge.fieldA)){
+        if(this.equals(edge.fieldA)){//false positive, I know better
             return (THIS) edge.fieldB;
         }
-        if(this.equals(edge.fieldB)){
+        if(this.equals(edge.fieldB)){//false positive, I know better
             return (THIS) edge.fieldA;
         }
         return null;

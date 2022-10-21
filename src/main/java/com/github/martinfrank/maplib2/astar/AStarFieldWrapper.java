@@ -5,8 +5,6 @@ import java.util.Objects;
 public class AStarFieldWrapper <F> {
 
     public final F field;
-
-//    private int f;
     private double g;
     private double h;
 
@@ -16,7 +14,7 @@ public class AStarFieldWrapper <F> {
         this.field = field;
     }
 
-    public double getf() {
+    public double getF() {
         return g + h;
     }
 
