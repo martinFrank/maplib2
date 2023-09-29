@@ -1,9 +1,12 @@
 package com.github.martinfrank.maplib2.geo;
+ 
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LineTest {
 
@@ -13,12 +16,12 @@ public class LineTest {
         DiscreetPoint b = new DiscreetPoint(3, 3);
 
         List<DiscreetPoint> line = Line.getLine(a, b);
-        Assert.assertEquals(4, line.size());
+        assertEquals(4, line.size());
 
-        Assert.assertTrue(line.contains(new DiscreetPoint(0, 0)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(1, 1)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(2, 2)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(3, 3)));
+        assertTrue(line.contains(new DiscreetPoint(0, 0)));
+        assertTrue(line.contains(new DiscreetPoint(1, 1)));
+        assertTrue(line.contains(new DiscreetPoint(2, 2)));
+        assertTrue(line.contains(new DiscreetPoint(3, 3)));
     }
 
     @Test
@@ -27,13 +30,13 @@ public class LineTest {
         DiscreetPoint b = new DiscreetPoint(5, 2);
 
         List<DiscreetPoint> line = Line.getLine(a, b);
-        Assert.assertEquals(6, line.size());
+        assertEquals(6, line.size());
 
-        Assert.assertTrue(line.contains(new DiscreetPoint(0, 0)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(1, 0)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(2, 1)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(3, 1)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(4, 2)));
-        Assert.assertTrue(line.contains(new DiscreetPoint(5, 2)));
+        assertTrue(line.contains(new DiscreetPoint(0, 0)));
+        assertTrue(line.contains(new DiscreetPoint(1, 0)));
+        assertTrue(line.contains(new DiscreetPoint(2, 1)));
+        assertTrue(line.contains(new DiscreetPoint(3, 1)));
+        assertTrue(line.contains(new DiscreetPoint(4, 2)));
+        assertTrue(line.contains(new DiscreetPoint(5, 2)));
     }
 }

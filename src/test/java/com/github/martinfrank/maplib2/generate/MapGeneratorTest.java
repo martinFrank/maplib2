@@ -4,10 +4,11 @@ import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.Map;
 import com.github.martinfrank.maplib2.map.Node;
-import junit.framework.TestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MapGeneratorTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+public class MapGeneratorTest  {
 
     @Test
     public void test_mapGenerated_defaultParameter_Successfully(){

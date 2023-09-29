@@ -4,8 +4,9 @@ import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.Map;
 import com.github.martinfrank.maplib2.map.Node;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MapTest {
 
@@ -30,7 +31,7 @@ public class MapTest {
                 }
             }
         }
-        Assert.assertNotNull(same);
+        assertNotNull(same);
     }
 
 }

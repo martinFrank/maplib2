@@ -2,11 +2,11 @@ package com.github.martinfrank.maplib2.generate;
 
 import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Node;
-import junit.framework.TestCase;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class EdgeTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class EdgeTest {
 
     @Test
     public void test_ab_equal_ba(){
@@ -19,7 +19,7 @@ public class EdgeTest extends TestCase {
         Edge ba = BypassHiddenConstructorUtil.createEdgeViaReflection(b,a);
 
         //then
-        Assert.assertEquals(ab, ba);
+        assertEquals(ab, ba);
     }
 
 }

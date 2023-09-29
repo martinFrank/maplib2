@@ -1,7 +1,10 @@
 package com.github.martinfrank.maplib2.geo;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class CircleComparatorTest {
 
@@ -11,7 +14,7 @@ public class CircleComparatorTest {
         DiscreetPoint p2 = new DiscreetPoint(2, 2);
 
         CirclePointComparator cc = new CirclePointComparator();
-        Assert.assertEquals(1, cc.compare(p1, p2));
+        assertEquals(1, cc.compare(p1, p2));
     }
 
     @Test
@@ -22,11 +25,11 @@ public class CircleComparatorTest {
         CirclePointComparator.GlPolarPoint pp1 = new CirclePointComparator().new GlPolarPoint(p1, center);
         CirclePointComparator.GlPolarPoint pp2 = new CirclePointComparator().new GlPolarPoint(p2, center);
 
-        Assert.assertNotEquals(pp1, pp2);
-        Assert.assertNotEquals(pp1, null);
-        Assert.assertNotEquals(pp1, "hello");
-        Assert.assertNotEquals(pp1.hashCode(), pp2.hashCode());
-        Assert.assertEquals(pp1, pp1);
+        assertNotEquals(pp1, pp2);
+        assertNotEquals(pp1, null);
+        assertNotEquals(pp1, "hello");
+        assertNotEquals(pp1.hashCode(), pp2.hashCode());
+        assertEquals(pp1, pp1);
 
     }
 }

@@ -1,9 +1,10 @@
 package com.github.martinfrank.maplib2.geo;
 
-import org.junit.Assert;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DiscreetPointTest {
 
@@ -12,7 +13,7 @@ public class DiscreetPointTest {
         DiscreetPoint p1 = new DiscreetPoint(1,1);
         DiscreetPoint p2 = new DiscreetPoint(1,1);
 
-        Assert.assertEquals(p1,p2);
+        assertEquals(p1,p2);
     }
 
     @Test
@@ -20,7 +21,7 @@ public class DiscreetPointTest {
         FloatingPoint p1 = new FloatingPoint(1,1);
         FloatingPoint p2 = new FloatingPoint(1.09,1);
 
-        Assert.assertTrue(p1.isNear(p2, 0.1));
+        assertTrue(p1.isNear(p2, 0.1));
     }
 
     @Test

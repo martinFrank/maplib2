@@ -6,7 +6,7 @@ import com.github.martinfrank.maplib2.map.Edge;
 import com.github.martinfrank.maplib2.map.Field;
 import com.github.martinfrank.maplib2.map.Map;
 import com.github.martinfrank.maplib2.map.Node;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

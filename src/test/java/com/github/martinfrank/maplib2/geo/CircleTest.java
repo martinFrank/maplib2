@@ -1,9 +1,11 @@
 package com.github.martinfrank.maplib2.geo;
+ 
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CircleTest {
 
@@ -16,10 +18,10 @@ public class CircleTest {
             System.out.println(point);
         }
 
-        Assert.assertTrue(circle.contains(new DiscreetPoint(0, 2)));
-        Assert.assertTrue(circle.contains(new DiscreetPoint(2, 0)));
-        Assert.assertTrue(circle.contains(new DiscreetPoint(0, -2)));
-        Assert.assertTrue(circle.contains(new DiscreetPoint(-2, 0)));
+        assertTrue(circle.contains(new DiscreetPoint(0, 2)));
+        assertTrue(circle.contains(new DiscreetPoint(2, 0)));
+        assertTrue(circle.contains(new DiscreetPoint(0, -2)));
+        assertTrue(circle.contains(new DiscreetPoint(-2, 0)));
 
     }
 }
