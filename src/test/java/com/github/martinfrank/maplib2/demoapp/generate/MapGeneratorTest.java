@@ -14,11 +14,9 @@ public class MapGeneratorTest  {
     public void test_mapGenerated_defaultParameter_Successfully(){
         //given
         MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(20).height(20).build();
-        MapGenerator<Field, Edge, Node> mapGenerator = new MapGenerator();
-
 
         //when
-        Map<Field, Edge,  Node> map = mapGenerator.generate(parameter);
+        Map map = MapGenerator.generate(parameter);
 
 
         map.getEdgeOnScreen(4,4,2,3);

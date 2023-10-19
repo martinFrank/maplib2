@@ -15,8 +15,11 @@ import java.util.Optional;
 
 class BypassHiddenConstructorUtil {
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
-    static <F extends Field, E extends Edge, N extends Node> Node<F,E> createNodeViaReflection(double x, double y) {
+    private BypassHiddenConstructorUtil(){
+
+    }
+
+    static  Node createNodeViaReflection(double x, double y) {
         Class<Node> fieldClass = Node.class;
         try {
             Constructor<Node> constructor = fieldClass.getDeclaredConstructor(double.class, double.class);
@@ -30,8 +33,7 @@ class BypassHiddenConstructorUtil {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static <F extends Field, E extends Edge, N extends Node> Field<F, E,N> createFieldViaReflection(DiscreetPoint position, List<N> nodes, List<E> edges, N center) {
+    static Field createFieldViaReflection(DiscreetPoint position, List<Node> nodes, List<Edge> edges, Node center) {
         Class<Field> fieldClass = Field.class;
         try {
             Constructor<Field> constructor = fieldClass.getDeclaredConstructor(DiscreetPoint.class, List.class, List.class, Node.class);
@@ -45,8 +47,7 @@ class BypassHiddenConstructorUtil {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static <F extends Field, E extends Edge, N extends Node> Edge<F,E, N> createEdgeViaReflection(Node a, Node b) {
+    static Edge createEdgeViaReflection(Node a, Node b) {
         Class<Edge> edgeClass = Edge.class;
         double xc = (a.x + b.x) / 2d;
         double yc = (a.y + b.y) / 2d;
@@ -63,13 +64,12 @@ class BypassHiddenConstructorUtil {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static <F extends Field<F,E,N>, E extends Edge, N extends Node> Map<F,E,N> createMapViaReflection(Fields fields){
+    static Map createMapViaReflection(Fields fields){
         Class<Map> mapClass = Map.class;
         try {
             Constructor<Map> constructor = mapClass.getDeclaredConstructor(Fields.class);
             constructor.setAccessible(true);
-            Map<F,E,N> map = constructor.newInstance(fields);
+            Map map = constructor.newInstance(fields);
             constructor.setAccessible(false);
             return map;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
@@ -79,11 +79,10 @@ class BypassHiddenConstructorUtil {
     }
 
 
-    @SuppressWarnings("rawtypes")
-    static <F extends Field, E extends Edge, N extends Node> N createIfNotExists(List<N> pointPool, double x, double y, MapPartFactory<F, E, N> factory) {
-        Node<F,E> node = BypassHiddenConstructorUtil.createNodeViaReflection(x,y);
-        N newNode = factory.createNode(node);
-        Optional<N> existing = pointPool.stream().filter(newNode::equals).findAny();
+    static Node createIfNotExists(List<Node> pointPool, double x, double y, MapPartFactory factory) {
+        Node node = BypassHiddenConstructorUtil.createNodeViaReflection(x,y);
+        Node newNode = factory.createNode(node);
+        Optional<Node> existing = pointPool.stream().filter(newNode::equals).findAny();
         if (existing.isPresent()) {
             return existing.get();
         } else {
@@ -92,11 +91,10 @@ class BypassHiddenConstructorUtil {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    static <F extends Field, E extends Edge, N extends Node> E createIfNotExists(List<E> edgePool, Node<F,E> a, Node<F,E> b, MapPartFactory<F, E, N> factory) {
-        Edge<F,E, N> newEdge = BypassHiddenConstructorUtil.createEdgeViaReflection(a, b);
-        E edge = factory.createEdge(newEdge);
-        Optional<E> existing = edgePool.stream().filter(edge::equals).findAny();
+    static Edge createIfNotExists(List<Edge> edgePool, Node a, Node b, MapPartFactory factory) {
+        Edge newEdge = BypassHiddenConstructorUtil.createEdgeViaReflection(a, b);
+        Edge edge = factory.createEdge(newEdge);
+        Optional<Edge> existing = edgePool.stream().filter(edge::equals).findAny();
         if (existing.isPresent()) {
             return existing.get();
         } else {

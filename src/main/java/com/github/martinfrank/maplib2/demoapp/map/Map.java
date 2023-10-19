@@ -7,14 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-@SuppressWarnings("rawtypes")
-public class Map<F extends Field, E extends Edge, N extends Node> {
+public class Map {
 
-    private final Fields<F, E, N> fields;
+    private final Fields fields;
 
     public final Polygon polygon;
 
-    private Map(Fields<F, E, N> fields) {
+    private Map(Fields fields) {
         this.fields = fields;
         double w = fields.getWidth();
         double h = fields.getHeight();
@@ -26,40 +25,40 @@ public class Map<F extends Field, E extends Edge, N extends Node> {
         ));
     }
 
-    public Map(Map<F, E, N> sample) {
+    public Map(Map sample) {
         this(sample.fields);
     }
 
 
-    public F getFieldOnScreen(double x, double y, double scale, double catchRadius) {
+    public Field getFieldOnScreen(double x, double y, double scale, double catchRadius) {
         return fields.getFieldOnScreen(new FloatingPoint(x, y), scale, catchRadius);
     }
 
-    public E getEdgeOnScreen(int x, int y, double scale, int catchRadius) {
+    public Edge getEdgeOnScreen(int x, int y, double scale, int catchRadius) {
         return fields.getEdgeOnScreen(new FloatingPoint(x, y), scale, catchRadius);
     }
 
-    public N getNodeOnScreen(int x, int y, double scale, int catchRadius) {
+    public Node getNodeOnScreen(int x, int y, double scale, int catchRadius) {
         return fields.getNodeOnScreen(new FloatingPoint(x, y), scale, catchRadius);
     }
 
-    public List<F> getBorders() {
+    public List<Field> getBorders() {
         return fields.getBorders();
     }
 
-    public F getRandomFieldWithinBorders() {
+    public Field getRandomFieldWithinBorders() {
         return fields.getRandomFieldWithinBorders();
     }
 
-    public Stream<F> fields() {
+    public Stream<Field> fields() {
         return fields.stream();
     }
 
-    public F getField(int x, int y) {
+    public Field getField(int x, int y) {
         return fields.getField(x, y);
     }
 
-    public List<F> getFields() {
+    public List<Field> getFields() {
         return fields.getAll();
     }
 

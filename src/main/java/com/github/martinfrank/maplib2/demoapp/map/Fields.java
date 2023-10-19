@@ -9,16 +9,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-@SuppressWarnings("rawtypes")
-public class Fields<F extends Field, E extends Edge, N extends Node> {
+public class Fields {
 
-    private final List<F> internalFields;
+    private final List<Field> internalFields;
 
-    public Fields(List<F> fields) {
+    public Fields(List<Field> fields) {
         internalFields = Collections.unmodifiableList(fields);
     }
 
-    public F getField(int x, int y) {
+    public Field getField(int x, int y) {
         DiscreetPoint position = new DiscreetPoint(x, y);
         return internalFields.stream().filter(f -> f.position.equals(position)).findAny().orElse(null);
     }
@@ -27,20 +26,19 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         return internalFields.size();
     }
 
-    public F get(int i) {
+    public Field get(int i) {
         return internalFields.get(i);
     }
 
-    public Stream<F> stream(){
+    public Stream<Field> stream(){
         return internalFields.stream();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<F> getBorders() {
-        List<F> borderFields = new ArrayList<>();
-        for(F f: internalFields){
-            List<E> edges = f.edges;
-            for(E edge: edges){
+    public List<Field> getBorders() {
+        List<Field> borderFields = new ArrayList<>();
+        for(Field f: internalFields){
+            List<Edge> edges = f.edges;
+            for(Edge edge: edges){
                 if (edge.fieldA == null || edge.fieldB == null){//I know better!!!
                     borderFields.add(f);
                     break;
@@ -50,19 +48,19 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         return borderFields;
     }
 
-    public F getRandomFieldWithinBorders() {
-        List<F> candidates = new ArrayList<>(internalFields);
+    public Field getRandomFieldWithinBorders() {
+        List<Field> candidates = new ArrayList<>(internalFields);
         candidates.removeAll(getBorders());
         Collections.shuffle(candidates);
         return candidates.get(0);
     }
 
-    public List<F> getAll() {
+    public List<Field> getAll() {
         return internalFields;
     }
 
-    public F getFieldOnScreen(FloatingPoint point, double scale, double catchRadius) {
-        for(F field: internalFields){
+    public Field getFieldOnScreen(FloatingPoint point, double scale, double catchRadius) {
+        for(Field field: internalFields){
             FloatingPoint center = field.center.polygon.getScaled(scale).get(0);
             if(Line.distance(point,center) < catchRadius){
                 return field;
@@ -71,11 +69,9 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public E getEdgeOnScreen(FloatingPoint point, double scale, int catchRadius) {
-        for(F field: internalFields){
-            for(Object edgeObject: field.edges) {
-                E edge = (E) edgeObject;
+    public Edge getEdgeOnScreen(FloatingPoint point, double scale, int catchRadius) {
+        for(Field field: internalFields){
+            for(Edge edge: field.edges) {
                 FloatingPoint center = edge.center.polygon.getScaled(scale).get(0);
                 if (Line.distance(point, center) < catchRadius) {
                     return edge;
@@ -85,11 +81,9 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public N getNodeOnScreen(FloatingPoint point, double scale, int catchRadius) {
-        for(F field: internalFields){
-            for(Object nodeObject: field.nodes) {
-                N node = (N) nodeObject;
+    public Node getNodeOnScreen(FloatingPoint point, double scale, int catchRadius) {
+        for(Field field: internalFields){
+            for(Node node: field.nodes) {
                 FloatingPoint center = node.polygon.getScaled(scale).get(0);
                 if (Line.distance(point, center) < catchRadius) {
                     return node;
@@ -101,9 +95,8 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
 
     public double getWidth() {
         double width = 0;
-        for(F field: internalFields){
-            for(Object nodeObject: field.nodes) {
-                N node = (N) nodeObject;
+        for(Field field: internalFields){
+            for(Node node: field.nodes) {
                 if (node.x > width){
                     width = node.x;
                 }
@@ -114,9 +107,8 @@ public class Fields<F extends Field, E extends Edge, N extends Node> {
 
     public double getHeight() {
         double height = 0;
-        for(F field: internalFields){
-            for(Object nodeObject: field.nodes) {
-                N node = (N) nodeObject;
+        for(Field field: internalFields){
+            for(Node node: field.nodes) {
                 if (node.y > height){
                     height = node.y;
                 }

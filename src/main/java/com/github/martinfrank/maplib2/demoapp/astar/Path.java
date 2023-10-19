@@ -5,22 +5,21 @@ import com.github.martinfrank.maplib2.demoapp.map.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("rawtypes")
-public class Path <F extends Field>{
+public class Path {
 
     @SuppressWarnings("squid:S1700")
-    private final List<F> path = new ArrayList<>();
-    public final F destiny;
-    public final F start;
+    private final List<Field> path = new ArrayList<>();
+    public final Field destiny;
+    public final Field start;
 
     Path() {
         start = null;
         destiny = null;
     }
-    Path(AStarFieldWrapper<F> end) {
-        AStarFieldWrapper<F> wrapper = end;
+    Path(AStarFieldWrapper end) {
+        AStarFieldWrapper wrapper = end;
         while(wrapper.getFrom() != null){
-            AStarFieldWrapper<F> next = wrapper.getFrom();
+            AStarFieldWrapper next = wrapper.getFrom();
             addFirst(wrapper.field);
             wrapper = next;
         }
@@ -28,12 +27,12 @@ public class Path <F extends Field>{
         this.start = wrapper.field;
     }
 
-    public static <F extends Field<F, ?, ?>> Path<F> emptyPath() {
-        return new Path<>();
+    public static Path emptyPath() {
+        return new Path();
     }
 
 
-    private void addFirst(F field ){
+    private void addFirst(Field field ){
         path.add(0, field);
     }
 
@@ -41,7 +40,7 @@ public class Path <F extends Field>{
         return path.isEmpty();
     }
 
-    public List<F> get(){
+    public List<Field> get(){
         return path;
     }
 }

@@ -1,16 +1,18 @@
 package com.github.martinfrank.maplib2.demoapp.astar;
 
+import com.github.martinfrank.maplib2.demoapp.map.Field;
+
 import java.util.Objects;
 
-public class AStarFieldWrapper <F> {
+public class AStarFieldWrapper  {
 
-    public final F field;
+    public final Field field;
     private double g;
     private double h;
 
-    private AStarFieldWrapper<F> from;
+    private AStarFieldWrapper from;
 
-    public AStarFieldWrapper(F field){
+    public AStarFieldWrapper(Field field){
         this.field = field;
     }
 
@@ -24,7 +26,7 @@ public class AStarFieldWrapper <F> {
         return g;
     }
 
-    public void setFrom(AStarFieldWrapper<F> from){
+    public void setFrom(AStarFieldWrapper from){
         this.from = from;
     }
 
@@ -32,7 +34,7 @@ public class AStarFieldWrapper <F> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AStarFieldWrapper<?> that = (AStarFieldWrapper<?>) o;
+        AStarFieldWrapper that = (AStarFieldWrapper) o;
         return field.equals(that.field);
     }
 
@@ -49,7 +51,7 @@ public class AStarFieldWrapper <F> {
         this.h = h;
     }
 
-    public AStarFieldWrapper<F> getFrom(){
+    public AStarFieldWrapper getFrom(){
         return from;
     }
 }

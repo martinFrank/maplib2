@@ -5,20 +5,16 @@ import com.github.martinfrank.maplib2.demoapp.map.Field;
 import com.github.martinfrank.maplib2.demoapp.map.MapPartFactory;
 import com.github.martinfrank.maplib2.demoapp.map.Node;
 
-@SuppressWarnings("rawtypes")
-class DefaultMapPartFactory implements MapPartFactory<Field, Edge, Node> {
+class DefaultMapPartFactory implements MapPartFactory  {
 
-    @Override
     public Field createField(Field field) {
         return field;
     }
 
-    @Override
     public Edge createEdge(Edge edge) {
         return edge;
     }
 
-    @Override
     public Node createNode(Node node) {
         return node;
     }

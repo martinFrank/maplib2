@@ -8,23 +8,23 @@ import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("rawtypes")
-public class Edge<F extends Field, THIS, N extends Node> {
+public class Edge {
 
-    public final N nodeA;
-    public final N nodeB;
+    public final Node nodeA;
+    public final Node nodeB;
 
-    public final N center;
+    public final Node center;
 
-    public final F fieldA = null;
-    public final F fieldB = null;
+    public final Field fieldA = null;
+    public final Field fieldB = null;
 
-    public final List<THIS> edges = null;
+    public final List<Edge> edges = null;
 
     private boolean isPassable;
 
     public final Polygon polygon;
 
-    private Edge(N nodeA, N nodeB, N center) {
+    private Edge(Node nodeA, Node nodeB, Node center) {
         this.nodeA = nodeA;
         this.nodeB = nodeB;
         this.center = center;
@@ -32,7 +32,7 @@ public class Edge<F extends Field, THIS, N extends Node> {
     }
 
     @SuppressWarnings("CopyConstructorMissesField")//positiveFalse: it DOES copy all fields!
-    public Edge(Edge<F,THIS, N> edge) {
+    public Edge(Edge edge) {
         this(edge.nodeA, edge.nodeB, edge.center);
     }
 
@@ -41,7 +41,7 @@ public class Edge<F extends Field, THIS, N extends Node> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Edge<F,THIS, N> edge = (Edge<F,THIS, N>) o;
+        Edge edge = (Edge) o;
         boolean ab = Objects.equals(nodeA, edge.nodeA) && Objects.equals(nodeB, edge.nodeB);
         boolean ba = Objects.equals(nodeA, edge.nodeB) && Objects.equals(nodeB, edge.nodeA);
         return ab || ba;

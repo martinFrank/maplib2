@@ -14,8 +14,7 @@ class BypassFinalFieldsUtil {
 
     }
 
-    @SuppressWarnings("rawtypes")
-    private static <F extends Field, N extends Node> void setNodeFields(N node, List<F> fields) {
+    private static void setNodeFields(Node node, List<Field> fields) {
         Class<Node> nodeClass = Node.class;
         try {
             java.lang.reflect.Field f = nodeClass.getField("fields");
@@ -27,8 +26,7 @@ class BypassFinalFieldsUtil {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    private static <N extends Node, E extends Edge> void setNodeEdges(N node, List<E> edges) {
+    private static void setNodeEdges(Node node, List<Edge> edges) {
         Class<Node> nodeClass = Node.class;
         try {
             java.lang.reflect.Field f = nodeClass.getField("edges");
@@ -40,8 +38,7 @@ class BypassFinalFieldsUtil {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    private static <E extends Edge, F extends Field> void setEdgeFields(E edge, List<F> nbgs) {
+    private static void setEdgeFields(Edge edge, List<Field> nbgs) {
         Class<Edge> nodeClass = Edge.class;
         try {
             java.lang.reflect.Field fa = nodeClass.getField("fieldA");
@@ -59,8 +56,7 @@ class BypassFinalFieldsUtil {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    private static <E extends Edge> void setEdgeEdges(E edge, List<E> nbgs) {
+    private static void setEdgeEdges(Edge edge, List<Edge> nbgs) {
         Class<Edge> nodeClass = Edge.class;
         try {
             java.lang.reflect.Field f = nodeClass.getField("edges");
@@ -72,8 +68,7 @@ class BypassFinalFieldsUtil {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    private static <F extends Field> void setFieldFields(F field, List<F> nbgs) {
+    private static void setFieldFields(Field field, List<Field> nbgs) {
         Class<Field> nodeClass = Field.class;
         try {
             java.lang.reflect.Field f = nodeClass.getField("fields");
@@ -85,45 +80,40 @@ class BypassFinalFieldsUtil {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    static <F extends Field, E extends Edge> void setFieldsToEdge(List<F> fields, List<E> edges) {
-        for (E edge : edges) {
-            List<F> nbgs = fields.stream().filter(f -> f.edges.contains(edge)).collect(Collectors.toList());
+    static void setFieldsToEdge(List<Field> fields, List<Edge> edges) {
+        for (Edge edge : edges) {
+            List<Field> nbgs = fields.stream().filter(f -> f.edges.contains(edge)).toList();
             BypassFinalFieldsUtil.setEdgeFields(edge, nbgs);
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    static <E extends Edge> void setEdgesToEdge(List<E> edges) {
-        for (E edge : edges) {
-            List<E> ngbs = edges.stream().filter(e -> !e.equals(edge) && (
+    static void setEdgesToEdge(List<Edge> edges) {
+        for (Edge  edge : edges) {
+            List<Edge> ngbs = edges.stream().filter(e -> !e.equals(edge) && (
                     e.nodeA.equals(edge.nodeA) || e.nodeA.equals(edge.nodeB) || e.nodeB.equals(edge.nodeA) || e.nodeB.equals(edge.nodeB)
-            )).collect(Collectors.toList());
+            )).toList();
             BypassFinalFieldsUtil.setEdgeEdges(edge, ngbs);
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    static <E extends Edge, N extends Node> void setEdgesToNodes(List<E> edges, List<N> nodes) {
-        for (N node : nodes) {
-            List<E> nbgs = edges.stream().filter(e -> e.nodeA.equals(node) || e.nodeB.equals(node)).collect(Collectors.toList());
+    static void setEdgesToNodes(List<Edge> edges, List<Node> nodes) {
+        for (Node node : nodes) {
+            List<Edge> nbgs = edges.stream().filter(e -> e.nodeA.equals(node) || e.nodeB.equals(node)).toList();
             BypassFinalFieldsUtil.setNodeEdges(node, nbgs);
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    static <F extends Field, N extends Node>void setFieldsToNodes(List<F> fields, List<N> nodes) {
-        for (N node : nodes) {
-            List<F> nbgs = fields.stream().filter(f -> f.nodes.contains(node)).collect(Collectors.toList());
+    static void setFieldsToNodes(List<Field> fields, List<Node> nodes) {
+        for (Node node : nodes) {
+            List<Field> nbgs = fields.stream().filter(f -> f.nodes.contains(node)).toList();
             BypassFinalFieldsUtil.setNodeFields(node, nbgs);
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    static <F extends Field<?, E,?>, E extends Edge> void setFieldsToField(List<F> fields) {
-        for (F field : fields) {
-            List<F> nbgs = new ArrayList<>();
-            for(F candidate: fields){
+    static void setFieldsToField(List<Field> fields) {
+        for (Field field : fields) {
+            List<Field> nbgs = new ArrayList<>();
+            for(Field candidate: fields){
                 if (!candidate.equals(field)){
                     for (Edge e: field.edges){
                         if(candidate.edges.contains(e)){ //FIXME what is this?

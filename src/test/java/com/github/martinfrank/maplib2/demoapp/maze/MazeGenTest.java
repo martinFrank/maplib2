@@ -16,7 +16,7 @@ public class MazeGenTest {
     public void doIt(){
         //given
         MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(8).height(8).build();
-        Map<Field, Edge, Node> map = new MapGenerator<>().generate(parameter);
+        Map map = MapGenerator.generate(parameter);
         Field f = map.getField(2,2);
 
         //when

@@ -3,15 +3,14 @@ package com.github.martinfrank.maplib2.demoapp.astar;
 import com.github.martinfrank.maplib2.demoapp.map.Edge;
 import com.github.martinfrank.maplib2.demoapp.map.Field;
 
-@SuppressWarnings("rawtypes")
-public class Walker <F extends Field<F,E,?>, E extends Edge>{
+public class Walker {
 
-    public boolean canEnter(F from, F to) {
-        E edge = from.getEdge(to);
+    public boolean canEnter(Field from, Field to) {
+        Edge edge = from.getEdge(to);
         return to.isPassable() && edge.isPassable();
     }
 
-    public double getEnterCosts(F from, F to) {
+    public double getEnterCosts(Field from, Field to) {
         return 10;
     }
 
